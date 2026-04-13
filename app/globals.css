@@ -1,26 +1,76 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  /* ── Brand colours ── */
+  --color-navy:      #1e1b4b;   /* deep violet – main dark/brand colour */
+  --color-navy-dark: #12104a;   /* darker variant */
+  --color-gold:      #be185d;   /* deep rose – accent (replaces old gold) */
+  --color-gold-light:#ec4899;   /* lighter rose-pink */
+  /* ── Background tones ── */
+  --color-cream: #fdf4ff;       /* page background – very light lavender */
+  --color-slate: #fdf0f8;       /* alternate section background – light blush */
+  /* ── Typography ── */
+  --font-sans:    'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif;
+  --font-display: 'Playfair Display', Georgia, serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+@layer base {
+  html { scroll-behavior: smooth; }
+  body { @apply bg-cream text-gray-800 font-sans; }
+  h1, h2, h3, h4, h5, h6 { @apply font-bold tracking-tight; }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer utilities {
+  .section-padding { @apply py-20 px-6; }
+  .container-max   { @apply max-w-6xl mx-auto; }
+
+  .btn-primary {
+    @apply text-white px-6 py-3 rounded-xl font-semibold transition-all duration-200
+           inline-flex items-center gap-2 shadow-md hover:shadow-lg hover:-translate-y-0.5;
+    background: linear-gradient(135deg, #be185d 0%, #9d174d 100%);
   }
+  .btn-outline {
+    @apply border-2 border-gold text-gold px-6 py-3 rounded-xl font-semibold
+           hover:bg-gold hover:text-white transition-all duration-200 inline-flex items-center gap-2;
+  }
+  .btn-gold {
+    @apply text-white px-6 py-3 rounded-xl font-semibold transition-all duration-200
+           inline-flex items-center gap-2 shadow-md hover:shadow-lg hover:-translate-y-0.5;
+    background: linear-gradient(135deg, #be185d 0%, #9d174d 100%);
+  }
+  .card {
+    @apply bg-white rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 p-6
+           border border-pink-50 hover:border-gold/20;
+  }
+  .section-title {
+    @apply text-3xl md:text-4xl font-bold text-navy mb-3;
+    font-family: 'Playfair Display', Georgia, serif;
+  }
+  .section-subtitle { @apply text-gray-500 text-lg max-w-xl; }
+
+  .badge {
+    @apply inline-flex items-center gap-1.5 text-gold bg-gold/8 text-xs font-semibold
+           px-3.5 py-1.5 rounded-full border border-gold/20;
+  }
+  .badge-gold {
+    @apply inline-block bg-gold/10 text-gold text-xs font-semibold px-3 py-1 rounded-full;
+  }
+  .text-gradient {
+    background: linear-gradient(135deg, #be185d, #7c3aed);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
+
+:root {
+  --background: #fdf4ff;
+  --foreground: #1e1b4b;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif;
 }
