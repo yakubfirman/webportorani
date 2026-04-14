@@ -110,8 +110,8 @@ export default function DashboardPage() {
         )}
 
         <aside className={`fixed inset-y-0 left-0 z-30 w-64 flex flex-col transition-transform duration-300
-            md:relative md:translate-x-0 md:z-auto
-            ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}
+          md:sticky md:top-0 md:h-screen md:translate-x-0 md:z-auto
+          ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}
           style={{ background: 'linear-gradient(180deg, #1e1b4b 0%, #12104a 100%)' }}>
 
           {/* Brand */}
