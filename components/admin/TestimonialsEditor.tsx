@@ -119,7 +119,7 @@ export default function TestimonialsEditor() {
             {editing.id! > 0 ? 'Edit Testimoni' : 'Tambah Testimoni'}
           </h3>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className={labelCls}>Nama</label>
               <input className={inputCls} required value={form.name}

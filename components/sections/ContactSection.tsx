@@ -127,7 +127,7 @@ export default function ContactSection({ data }: Props) {
             )}
 
             <form onSubmit={handleSubmit} className="bg-white rounded-xs shadow-lg p-8 space-y-5 border-2 border-pink-300">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider block mb-1.5">Nama *</label>
                   <input

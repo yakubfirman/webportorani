@@ -126,7 +126,7 @@ export default function SkillsEditor() {
             {editing.id! > 0 ? 'Edit Skill' : 'Tambah Skill'}
           </h3>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className={labelCls}>Nama Skill</label>
               <input className={inputCls} required value={form.name}

@@ -132,7 +132,7 @@ export default function ExperienceEditor() {
             {editing.id! > 0 ? 'Edit Pengalaman' : 'Tambah Pengalaman'}
           </h3>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className={labelCls}>Judul / Posisi</label>
               <input className={inputCls} required value={form.title}
@@ -148,7 +148,7 @@ export default function ExperienceEditor() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className={labelCls}>Institusi</label>
               <input className={inputCls} required value={form.institution}

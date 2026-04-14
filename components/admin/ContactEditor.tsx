@@ -57,7 +57,7 @@ export default function ContactEditor() {
     <form onSubmit={handleSave} className="space-y-5 max-w-2xl">
       <h2 className="text-lg font-bold text-pink-900">Informasi Kontak</h2>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label className={labelCls}>
             <FontAwesomeIcon icon={faEnvelope} className="w-3 h-3 mr-1" />Email
