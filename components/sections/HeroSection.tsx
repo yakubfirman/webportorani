@@ -50,7 +50,7 @@ export default function HeroSection({ data }: Props) {
             <div className="w-full lg:w-1/2 animate-fadeUp flex flex-col justify-center items-center lg:items-start lg:order-1">
               {/* NAME */}
               <h1 className="text-4xl md:text-6xl text-center lg:text-left">
-                <span className="bg-gradient-to-r from-pink-600 via-purple-500 to-pink-500 bg-clip-text text-transparent ">
+                <span className="bg-gradient-to-r from-pink-600 to-rose-500 bg-clip-text text-transparent ">
                   {name}
                 </span>
               </h1>

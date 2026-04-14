@@ -67,9 +67,7 @@
   .container-max   { @apply max-w-7xl mx-auto; }
 
   .btn-primary {
-    @apply text-white px-3 py-2 rounded-xs font-semibold transition-all duration-200
-           inline-flex items-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-1;
-    background: linear-gradient(135deg, #be185d 0%, #ec4899 100%);
+    @apply inline-flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-pink-600 to-rose-500 text-white font-semibold text-sm rounded-xs transition-all shadow-lg hover:from-pink-700 hover:to-rose-600 hover:shadow-xl active:scale-95;
     border: none;
     letter-spacing: 0.5px;
   }

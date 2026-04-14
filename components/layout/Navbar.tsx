@@ -4,9 +4,15 @@ import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { useI18n } from '../../lib/i18n';
+import Button from '../ui/Button';
+import { HeroData } from '../../types';
+import { api } from '../../lib/api';
+
 
 interface NavbarProps {
   heroName?: string;
+  heroData?: HeroData;
+
 }
 
 interface TranslationKeys {
@@ -32,12 +38,15 @@ function getNavLinks(t: TranslationKeys) {
   ];
 }
 
-export default function Navbar({ heroName }: NavbarProps) {
+export default function Navbar({ heroName, heroData }: NavbarProps) {
+  const getFullUrl = (url: string) =>
+  url?.startsWith('/api/uploads/') ? 'http://localhost:5000' + url : url;
   const { t } = useI18n();
   const navLinks = getNavLinks(t);
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('');
+  const photoUrl    = getFullUrl(heroData?.photo_url || '');
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 60);
@@ -90,10 +99,20 @@ const firstTwoWords = heroName ? heroName.split(' ').slice(0, 2).join(' ') : 'Po
             className="group flex items-center gap-1.5 select-none"
             aria-label="Home"
           >
+            <div className="relative h-9 w-9 scale-100 overflow-hidden rounded-full ring-1 ring-red-800/60 transition-all duration-300 group-hover:scale-105 group-hover:ring-red-500/80">
+              {photoUrl ? (
+                // Use plain img to avoid requiring next/image remote config for localhost backend
+                <img src={photoUrl} alt={`${firstTwoWords}`} className="w-full h-full object-cover" />
+              ) : (
+                <div className="w-full h-full bg-pink-100 text-pink-700 flex items-center justify-center font-bold">
+                  {firstTwoWords.split(' ').map((s) => s[0]).filter(Boolean).join('')}
+                </div>
+              )}
+            </div>
             <span
-              className={`text-xl font-bold tracking-tight transition-colors duration-300 text-pink-500`}
+              className={`text-xl font-bold bg-gradient-to-r from-pink-600 to-rose-500 bg-clip-text text-transparent font-black`}
             >
-              <span className="bg-gradient-to-r from-pink-600 to-rose-500 bg-clip-text text-transparent font-black"></span>
+              <span className=""></span>
               {firstTwoWords}
             </span>
             <span className="w-1.5 h-1.5 rounded-full bg-pink-500 mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -107,7 +126,7 @@ const firstTwoWords = heroName ? heroName.split(' ').slice(0, 2).join(' ') : 'Po
                 <li key={link.href}>
                   <a
                     href={link.href}
-                    className={`relative px-4 py-2.5 text-sm font-semibold rounded-xs transition-all duration-200 flex items-center gap-2 ${
+                    className={`relative px-4 py-1 text-sm font-semibold rounded-xs transition-all duration-200 flex items-center gap-2 ${
                       scrolled
                         ? isActive
                           ? 'text-pink-600 font-bold'
@@ -131,21 +150,14 @@ const firstTwoWords = heroName ? heroName.split(' ').slice(0, 2).join(' ') : 'Po
           <div className="hidden md:flex items-center gap-3">
             <a
               href="#contact"
-              className="group relative inline-flex items-center gap-2 text-sm font-bold px-6 py-2.5 rounded-xs transition-all duration-300 overflow-hidden shadow-lg hover:shadow-xl hover:-translate-y-0.5 bg-gradient-to-r from-pink-600 to-rose-500 text-white hover:from-pink-700 hover:to-rose-600 hover:scale-105"
+              className="group relative inline-flex items-center gap-2 text-sm font-bold px-3 py-1 rounded-sm transition-all duration-300 overflow-hidden shadow-lg hover:shadow-xl hover:-translate-y-0.5 bg-gradient-to-r from-pink-600 to-rose-500 text-white hover:from-pink-700 hover:to-rose-600 hover:scale-105"
             >
               <span className="relative z-10">{t.nav.hireMe}</span>
-              <svg
-                className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-0.5"
-                viewBox="0 0 14 14"
-                fill="none"
-              >
-                <path d="M1 7h12M8 3l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
             </a>
           </div>
 
           {/* Mobile Hamburger */}
-          <button
+          <Button
             className={`md:hidden w-9 h-9 rounded-xs flex items-center justify-center transition-all duration-200 ${
               scrolled
                 ? 'text-slate-700 hover:bg-slate-100 active:scale-95'
@@ -154,12 +166,13 @@ const firstTwoWords = heroName ? heroName.split(' ').slice(0, 2).join(' ') : 'Po
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label="Toggle menu"
             aria-expanded={menuOpen}
+            variant="ghost"
           >
             <FontAwesomeIcon
               icon={menuOpen ? faXmark : faBars}
               className={`w-[18px] h-[18px] transition-transform duration-200 ${menuOpen ? 'rotate-90' : 'rotate-0'}`}
             />
-          </button>
+          </Button>
         </div>
 
         {/* Mobile Menu */}
@@ -196,9 +209,7 @@ const firstTwoWords = heroName ? heroName.split(' ').slice(0, 2).join(' ') : 'Po
               onClick={() => setMenuOpen(false)}
             >
               {t.nav.hireMe}
-              <svg className="w-3.5 h-3.5" viewBox="0 0 14 14" fill="none">
-                <path d="M1 7h12M8 3l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
+
             </a>
           </div>
         </div>

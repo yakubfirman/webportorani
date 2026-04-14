@@ -39,13 +39,13 @@ export default function SkillsSection({ data }: Props) {
   ];
 
   return (
-    <section id="skills" className="relative py-20 px-6 overflow-hidden">
+    <section id="skills" className="relative py-20 overflow-hidden">
       {/* Decorative pastel blob */}
       <div className="absolute -top-16 -left-16 w-64 h-64 rounded-xs opacity-20 pointer-events-none animate-pulse-slow"
         style={{ background: 'radial-gradient(circle, #f9c6d3, transparent)', filter: 'blur(60px)' }} />
       <div className="absolute bottom-0 right-0 w-56 h-56 rounded-xs opacity-20 pointer-events-none animate-pulse-slower"
         style={{ background: 'radial-gradient(circle, #e0bbff, transparent)', filter: 'blur(50px)' }} />
-        <div className="max-w-6xl mx-auto w-full">
+        <div className="max-w-6xl mx-auto px-6 w-full">
         {/* Header */}
         <div className="text-center mb-16 animate-fade-in">
           <h2 className="section-title text-4xl md:text-5xl font-bold animate-fade-in delay-100 mb-4">Skills &amp; Competencies</h2>

@@ -5,13 +5,13 @@ import { faLinkedinIn, faGithub } from '@fortawesome/free-brands-svg-icons';
 export default function Footer() {
   const year = new Date().getFullYear();
   return (
-    <footer style={{ background: 'linear-gradient(135deg, #1e1b4b 0%, #12104a 100%)' }} className="text-white">
+    <footer className="text-white font-semibold bg-gradient-to-r from-pink-600 to-rose-500">
       <div className="max-w-7xl mx-auto px-6 py-10">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           {/* Brand */}
           <div className="text-center md:text-left">
             <p className="text-white font-bold text-lg" style={{ fontFamily: "'Catamaran', sans-serif", fontWeight: 900 }}>
-              <span className="text-gold">✦</span> Portfolio <span className="text-gold">✦</span>
+              <span className="text-gold"></span> Maharani Rizka <span className="text-gold"></span>
             </p>
             <p className="text-white/40 text-xs mt-1">English Educator &amp; Curriculum Specialist</p>
           </div>
@@ -43,17 +43,11 @@ export default function Footer() {
 
         <hr className="border-white/10 my-6" />
 
-        <div className="flex flex-col md:flex-row items-center justify-between gap-2 text-xs text-white/30">
-          <p>
-            &copy; {year} Portfolio. Dibuat dengan{' '}
-            <FontAwesomeIcon icon={faHeart} className="w-3 h-3 text-red-400 mx-0.5" />
-            menggunakan{' '}
-            <FontAwesomeIcon icon={faCode} className="w-3 h-3 mx-0.5" />
-            Next.js &amp; Flask.
+        <div className="flex flex-col md:flex-row items-center justify-center gap-2 text-xs text-white/30">
+          <p className=''>
+            &copy; {year} Maharani Rizka Ramadhani Wijaya. Make With{' '}
+            <FontAwesomeIcon icon={faHeart} className="w-3 h-3 text-yellow-500 mx-0.5" />
           </p>
-          <a href="/admin" className="hover:text-white/60 transition-colors">
-            Admin Panel
-          </a>
         </div>
       </div>
     </footer>

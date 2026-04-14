@@ -12,7 +12,7 @@ export type ButtonProps = (React.ButtonHTMLAttributes<HTMLButtonElement> & React
 };
 
 const VARIANT_CLASS: Record<Variant, string> = {
-  primary: 'btn-primary',
+  primary: 'inline-flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-pink-600 to-rose-500 text-white font-semibold text-sm rounded-xs transition-all shadow-lg hover:from-pink-700 hover:to-rose-600 hover:shadow-xl active:scale-95',
   outline: 'btn-outline',
   gold: 'btn-gold',
   neutral: 'inline-flex items-center gap-2 px-4 py-2 rounded-xs border-2 border-pink-300 text-pink-700 bg-white/95',

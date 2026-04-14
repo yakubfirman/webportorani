@@ -8,6 +8,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { ContactMessageData } from '../../types';
 import { api } from '../../lib/api';
+import Button from '../ui/Button';
 
 export default function MessagesViewer() {
   const [messages, setMessages] = useState<ContactMessageData[]>([]);
@@ -114,19 +115,21 @@ export default function MessagesViewer() {
                       <FontAwesomeIcon icon={faReply} className="w-3 h-3" /> Balas Email
                     </a>
                     {!msg.is_read && (
-                      <button
+                      <Button
                         onClick={() => handleRead(msg.id!)}
+                        variant="ghost"
                         className="inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-xs bg-green-50 text-green-700 hover:bg-green-100 font-medium"
                       >
                         <FontAwesomeIcon icon={faCheckDouble} className="w-3 h-3" /> Tandai Dibaca
-                      </button>
+                      </Button>
                     )}
-                    <button
+                    <Button
                       onClick={() => handleDelete(msg.id!)}
+                      variant="ghost"
                       className="inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-xs bg-red-50 hover:bg-red-100 text-red-600 font-medium"
                     >
                       <FontAwesomeIcon icon={faTrash} className="w-3 h-3" /> Hapus
-                    </button>
+                    </Button>
                   </div>
                 </div>
               )}

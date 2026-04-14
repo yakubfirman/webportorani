@@ -22,14 +22,14 @@ export default function AboutSection({ data }: Props) {
   const paragraphs = content.split('\n\n').filter(Boolean);
 
   return (
-    <section id="about" className="relative py-20 px-6 overflow-hidden">
+    <section id="about" className="relative py-20  overflow-hidden">
       {/* Decorative blob */}
       <div className="absolute -top-20 -left-20 w-72 h-72 rounded-xs opacity-20 pointer-events-none animate-pulse-slow"
         style={{ background: 'radial-gradient(circle, #f9c6d3, transparent)', filter: 'blur(70px)' }} />
       <div className="absolute bottom-0 right-0 w-64 h-64 rounded-xs opacity-20 pointer-events-none animate-pulse-slower"
         style={{ background: 'radial-gradient(circle, #e0bbff, transparent)', filter: 'blur(60px)' }} />
 
-        <div className="max-w-6xl mx-auto w-full">
+        <div className="max-w-6xl mx-auto px-6 w-full">
         {/* Header */}
         <div className="text-center mb-16 animate-fade-in">
           <h2 className="section-title text-4xl md:text-5xl font-bold animate-fade-in delay-100 mb-6">About Me</h2>

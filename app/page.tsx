@@ -72,7 +72,7 @@ export default function Home() {
 
   return (
     <>
-      <Navbar heroName={data.hero?.name} />
+      <Navbar heroName={data.hero?.name} heroData={data.hero ?? undefined} />
       <main>
         <HeroSection data={data.hero} />
         <AboutSection data={data.about} />

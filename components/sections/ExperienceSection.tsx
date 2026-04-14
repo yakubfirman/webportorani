@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSchool, faClipboardList, faCalendarDays, faCheck, faInbox } from '@fortawesome/free-solid-svg-icons';
 import { ExperienceData } from '../../types';
+import Button from '../ui/Button';
 
 interface Props {
   data: ExperienceData[];
@@ -42,9 +43,10 @@ export default function ExperienceSection({ data }: Props) {
         {/* Tabs */}
         <div className="flex justify-center gap-4 mb-12 animate-fade-in delay-100">
           {tabs.map((tab) => (
-            <button
+            <Button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
+              variant="ghost"
               className={`inline-flex items-center gap-2 px-7 py-2.5 rounded-xs font-semibold text-sm transition-all duration-200 border-2 focus:outline-none focus:ring-2 focus:ring-pink-400 ${
                 activeTab === tab.id
                   ? 'bg-pink-300 text-pink-900 border-pink-500 shadow-lg scale-105'
@@ -53,7 +55,7 @@ export default function ExperienceSection({ data }: Props) {
             >
               <FontAwesomeIcon icon={tab.icon} className="w-4 h-4" />
               {tab.label}
-            </button>
+            </Button>
           ))}
         </div>
 

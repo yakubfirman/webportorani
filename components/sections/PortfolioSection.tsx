@@ -12,6 +12,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { PortfolioItemData } from '../../types';
+import Button from '../ui/Button';
 
 interface Props {
   data: PortfolioItemData[];
@@ -51,8 +52,9 @@ export default function PortfolioSection({ data }: Props) {
         {/* Filter Buttons */}
         {data.length > 0 && (
           <div className="flex justify-center flex-wrap gap-4 mb-10">
-            <button
+            <Button
               onClick={() => setFilter('all')}
+              variant="ghost"
               className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-xs text-sm font-semibold transition-all duration-200 border-2 ${
                 filter === 'all'
                   ? 'bg-pink-300 text-pink-900 border-pink-500 shadow-lg'
@@ -61,13 +63,14 @@ export default function PortfolioSection({ data }: Props) {
             >
               <FontAwesomeIcon icon={faFilter} className="w-3.5 h-3.5" />
               All
-            </button>
+            </Button>
             {availableTypes.map((type) => {
               const cfg = typeConfig[type];
               return (
-                <button
+                <Button
                   key={type}
                   onClick={() => setFilter(type)}
+                  variant="ghost"
                   className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-xs text-sm font-semibold transition-all duration-200 border-2 ${
                     filter === type
                       ? 'bg-pink-300 text-pink-900 border-pink-500 shadow-lg'
@@ -76,7 +79,7 @@ export default function PortfolioSection({ data }: Props) {
                 >
                   {cfg && <FontAwesomeIcon icon={cfg.icon} className="w-3.5 h-3.5" />}
                   {cfg?.label ?? type}
-                </button>
+                </Button>
               );
             })}
           </div>
