@@ -1,9 +1,13 @@
-export const API_URL =
-  process.env.NEXT_PUBLIC_API_URL || 'https://apiportomaharani.pythonanywhere.com';
+// Normalize API base URL: remove trailing slashes to avoid double-slash redirects
+const rawApiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://apiportomaharani.pythonanywhere.com';
+export const API_URL = rawApiUrl.replace(/\/+$/g, '');
 
 export function resolveUrl(url?: string | null): string {
   if (!url) return '';
-  return url.startsWith('/api/uploads/') ? `${API_URL}${url}` : url;
+  if (url.startsWith('/api/uploads/')) {
+    return `${API_URL}${url}`;
+  }
+  return url;
 }
 
 function getToken(): string | null {
@@ -24,7 +28,8 @@ async function request<T = unknown>(
     ...((options.headers as Record<string, string>) || {}),
   };
 
-  const res = await fetch(`${API_URL}${endpoint}`, { ...options, headers });
+  const path = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+  const res = await fetch(`${API_URL}${path}`, { ...options, headers });
 
   if (!res.ok) {
     const err = await res.json().catch(() => ({ error: `HTTP ${res.status}` }));

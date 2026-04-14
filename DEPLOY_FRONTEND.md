@@ -17,7 +17,9 @@ git push -u origin main
 - Go to https://vercel.com and sign in with GitHub.
 - Import Project → select your `frontend` repository.
 - In Vercel Project Settings → Environment Variables, add:
+ - In Vercel Project Settings → Environment Variables, add:
   - `NEXT_PUBLIC_API_URL` = `https://<yourusername>.pythonanywhere.com` (or your backend production URL)
+    - Important: do NOT include a trailing slash. The frontend normalizes the value automatically to avoid double-slash redirects.
 - Deploy. Vercel will build using `npm run build`.
 
 3) Alternative: GitHub Actions + artifact
