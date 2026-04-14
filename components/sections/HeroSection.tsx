@@ -56,7 +56,7 @@ export default function HeroSection({ data }: Props) {
               </div>
 
               {/* PHOTO */}
-              <div className="relative w-[320px] h-[400px] shape-blob overflow-hidden shadow-2xl animate-float border border-white/30 backdrop-blur-lg z-10">
+              <div className="mt-20 md:mt-0 relative w-[320px] h-[400px] shape-blob overflow-hidden shadow-2xl animate-float border border-white/30 backdrop-blur-lg z-10">
                 {photoUrl ? (
                   <img src={photoUrl} className="w-full h-full object-cover" alt="Profile" />
                 ) : (

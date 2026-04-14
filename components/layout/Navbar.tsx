@@ -85,7 +85,7 @@ const firstTwoWords = heroName ? heroName.split(' ').slice(0, 2).join(' ') : 'Po
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out ${
           scrolled
             ? 'bg-gradient-to-b from-white/99 to-white/95 backdrop-blur-xl shadow-[0_4px_20px_rgba(190,24,93,0.08)]'
-            : 'bg-gradient-to-b backdrop-blur-md'
+            : 'backdrop-blur-sm'
         }`}
       >
         <div className={`max-w-6xl mx-auto flex items-center justify-between px-6  transition-all ${
