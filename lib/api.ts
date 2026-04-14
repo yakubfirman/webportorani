@@ -7,7 +7,36 @@ export function resolveUrl(url?: string | null): string {
   if (url.startsWith('/api/uploads/')) {
     return `${API_URL}${url}`;
   }
-  return url;
+  // If the stored URL is absolute and points to localhost (or another host
+  // but references the uploads path), rewrite it to use the configured
+  // `API_URL` so the browser does not attempt to load insecure local assets
+  // when the frontend is served over HTTPS.
+  try {
+    const parsed = new URL(url, API_URL);
+    const path = parsed.pathname + (parsed.search || '');
+    const hostname = parsed.hostname || '';
+
+    // If hostname is loopback (localhost / 127.x / ::1) map to API_URL
+    if (/^(localhost|127\.|::1$)/i.test(hostname)) {
+      return `${API_URL}${path}`;
+    }
+
+    // If URL path looks like an uploads path, prefer serving from API_URL
+    if (path.startsWith('/api/uploads/')) {
+      return `${API_URL}${path}`;
+    }
+
+    return url;
+  } catch (e) {
+    // Fallback: if it contains 'localhost' try to extract the path and
+    // rewrite it to API_URL, otherwise return as-is.
+    if (url.includes('localhost')) {
+      const m = url.match(/https?:\/\/[^\/]+(\/.*)/i);
+      if (m && m[1]) return `${API_URL}${m[1]}`;
+      return url.replace(/https?:\/\/[^\/]+/i, API_URL);
+    }
+    return url;
+  }
 }
 
 function getToken(): string | null {
@@ -117,6 +146,11 @@ export const api = {
       method: 'POST',
       headers: token ? { Authorization: `Bearer ${token}` } : {},
       body: formData,
-    }).then((r) => r.json()) as Promise<{ url: string; filename: string }>;
+    }).then(async (r) => {
+      const json = await r.json().catch(() => ({} as Record<string, unknown>));
+      const url = typeof (json as any).url === 'string' ? resolveUrl((json as any).url) : '';
+      const filename = typeof (json as any).filename === 'string' ? (json as any).filename : '';
+      return { url, filename } as { url: string; filename: string };
+    });
   },
 };
