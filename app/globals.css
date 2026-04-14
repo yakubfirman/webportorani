@@ -1,5 +1,31 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Catamaran:wght@300;400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes pulse-slow {
+  0%, 100% { opacity: 0.10; }
+  50% { opacity: 0.18; }
+}
+@keyframes pulse-slower {
+  0%, 100% { opacity: 0.10; }
+  50% { opacity: 0.14; }
+}
+
+@layer utilities {
+  .animate-fade-in    { animation: fade-in 1s cubic-bezier(.4,0,.2,1) both; }
+  .animate-fade-in.delay-100 { animation-delay: .1s; }
+  .animate-fade-in.delay-200 { animation-delay: .2s; }
+  .animate-fade-in.delay-300 { animation-delay: .3s; }
+  .animate-fade-in.delay-400 { animation-delay: .4s; }
+  .animate-fade-in.delay-500 { animation-delay: .5s; }
+  .animate-pulse-slow   { animation: pulse-slow 3s ease-in-out infinite; }
+  .animate-pulse-slower { animation: pulse-slower 6s ease-in-out infinite; }
+
+}
 
 @theme {
   /* ── Brand colours ── */
@@ -7,57 +33,86 @@
   --color-navy-dark: #12104a;   /* darker variant */
   --color-gold:      #be185d;   /* deep rose – accent (replaces old gold) */
   --color-gold-light:#ec4899;   /* lighter rose-pink */
+  --color-peach:     #ffe5ec;   /* soft peach */
+  --color-lavender:  #e0bbff;   /* soft lavender */
+  --color-pink:      #f9c6d3;   /* pastel pink */
+  --color-mint:      #e0f2f1;   /* pastel mint */
   /* ── Background tones ── */
   --color-cream: #fdf4ff;       /* page background – very light lavender */
   --color-slate: #fdf0f8;       /* alternate section background – light blush */
   /* ── Typography ── */
-  --font-sans:    'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif;
-  --font-display: 'Playfair Display', Georgia, serif;
+  --font-sans:    'Catamaran', 'Segoe UI', system-ui, sans-serif;
+  --font-display: 'Catamaran', Georgia, sans-serif;
+  /* ── Custom Rounded ── */
+  --radius-xs: 0.375rem;        /* 6px - extra small */
 }
 
 @layer base {
   html { scroll-behavior: smooth; }
-  body { @apply bg-cream text-gray-800 font-sans; }
-  h1, h2, h3, h4, h5, h6 { @apply font-bold tracking-tight; }
+  body {
+    @apply text-gray-800 font-sans;
+    background: 
+      radial-gradient(circle at 20% 50%, rgba(190, 24, 93, 0.05) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(236, 72, 153, 0.05) 0%, transparent 50%),
+      radial-gradient(circle at 40% 100%, rgba(224, 187, 255, 0.03) 0%, transparent 50%),
+      linear-gradient(135deg, #fdf4ff 0%, #ffe5ec 100%);
+    min-height: 100vh;
+    background-attachment: fixed;
+  }
+  h1, h2, h3, h4, h5, h6 { @apply font-bold tracking-tight; font-family: 'Catamaran', sans-serif; font-weight: 900; }
 }
 
 @layer utilities {
   .section-padding { @apply py-20 px-6; }
-  .container-max   { @apply max-w-6xl mx-auto; }
+  .container-max   { @apply max-w-7xl mx-auto; }
 
   .btn-primary {
-    @apply text-white px-6 py-3 rounded-xl font-semibold transition-all duration-200
-           inline-flex items-center gap-2 shadow-md hover:shadow-lg hover:-translate-y-0.5;
-    background: linear-gradient(135deg, #be185d 0%, #9d174d 100%);
+    @apply text-white px-3 py-2 rounded-xs font-semibold transition-all duration-200
+           inline-flex items-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-1;
+    background: linear-gradient(135deg, #be185d 0%, #ec4899 100%);
+    border: none;
+    letter-spacing: 0.5px;
   }
   .btn-outline {
-    @apply border-2 border-gold text-gold px-6 py-3 rounded-xl font-semibold
-           hover:bg-gold hover:text-white transition-all duration-200 inline-flex items-center gap-2;
+    @apply border-2 border-gold text-gold px-3 py-2 rounded-xs font-semibold
+           hover:bg-gold hover:text-white transition-all duration-200 inline-flex items-center gap-2 shadow;
+    background: rgba(255,255,255,0.8);
+    backdrop-filter: blur(2px);
   }
   .btn-gold {
-    @apply text-white px-6 py-3 rounded-xl font-semibold transition-all duration-200
-           inline-flex items-center gap-2 shadow-md hover:shadow-lg hover:-translate-y-0.5;
-    background: linear-gradient(135deg, #be185d 0%, #9d174d 100%);
+    @apply text-white px-6 py-3 rounded-xs font-semibold transition-all duration-200
+           inline-flex items-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-1;
+    background: linear-gradient(135deg, #be185d 0%, #ec4899 100%);
+    border: none;
   }
   .card {
-    @apply bg-white rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 p-6
-           border border-pink-50 hover:border-gold/20;
+    @apply bg-white rounded-xs shadow-lg hover:shadow-2xl transition-all duration-300 p-8
+           border-2 border-pink-200 hover:border-pink-400;
+    background: linear-gradient(135deg, #fff 60%, #ffe5ec 100%);
   }
   .section-title {
     @apply text-3xl md:text-4xl font-bold text-navy mb-3;
-    font-family: 'Playfair Display', Georgia, serif;
+    font-family: 'Catamaran', sans-serif;
+    letter-spacing: 1px;
+    color: #be185d;
+    background: linear-gradient(90deg, #be185d 60%, #e0bbff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
   .section-subtitle { @apply text-gray-500 text-lg max-w-xl; }
 
   .badge {
-    @apply inline-flex items-center gap-1.5 text-gold bg-gold/8 text-xs font-semibold
-           px-3.5 py-1.5 rounded-full border border-gold/20;
+    @apply inline-flex items-center gap-1.5 text-pink-700 bg-pink-100 text-xs font-semibold
+           px-3.5 py-1.5 rounded-xs border border-pink-300 shadow transition-all duration-200;
+    background: linear-gradient(90deg, #ffe5ec 60%, #e0bbff 100%);
   }
   .badge-gold {
-    @apply inline-block bg-gold/10 text-gold text-xs font-semibold px-3 py-1 rounded-full;
+    @apply inline-block bg-gold/10 text-gold text-xs font-semibold px-3 py-1 rounded-xs shadow;
+    background: linear-gradient(90deg, #f9c6d3 60%, #e0bbff 100%);
   }
   .text-gradient {
-    background: linear-gradient(135deg, #be185d, #7c3aed);
+    background: linear-gradient(135deg, #be185d, #e0bbff, #f9c6d3);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -72,5 +127,5 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif;
+  font-family: 'Catamaran', 'Segoe UI', system-ui, sans-serif;
 }

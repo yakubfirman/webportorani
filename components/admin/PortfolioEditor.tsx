@@ -11,6 +11,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { PortfolioItemData } from '../../types';
 import { api } from '../../lib/api';
+import Button from '../ui/Button';
 
 const emptyItem = (): Omit<PortfolioItemData, 'id'> => ({
   title: '', description: '', type: 'document', url: '', thumbnail_url: '', order: 0,
@@ -70,7 +71,7 @@ export default function PortfolioEditor() {
     await load();
   };
 
-  const inputCls = 'w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-navy/30 focus:border-navy transition-colors';
+  const inputCls = 'w-full border-2 border-pink-300 rounded-xs px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-pink-400 transition-colors';
   const labelCls = 'block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5';
 
   if (loading) return (
@@ -83,10 +84,10 @@ export default function PortfolioEditor() {
   return (
     <div className="max-w-3xl">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-lg font-bold text-navy">Portofolio &amp; Artefak</h2>
-        <button onClick={openNew} className="btn-primary text-sm py-2">
+        <h2 className="text-lg font-bold text-pink-900">Portofolio &amp; Artefak</h2>
+        <Button onClick={openNew} variant="primary" className="text-sm py-2">
           <FontAwesomeIcon icon={faPlus} className="w-3.5 h-3.5" /> Tambah
-        </button>
+        </Button>
       </div>
 
       {!editing && (
@@ -94,13 +95,13 @@ export default function PortfolioEditor() {
           {items.map((item) => {
             const cfg = typeConfig[item.type as keyof typeof typeConfig] ?? typeConfig.document;
             return (
-              <div key={item.id} className="bg-white border border-gray-200 rounded-xl p-4 flex justify-between items-start gap-4">
+              <div key={item.id} className="bg-white border border-gray-200 rounded-xs p-4 flex justify-between items-start gap-4">
                 <div className="flex items-start gap-3">
-                  <div className={`w-9 h-9 rounded-lg ${cfg.bg} flex items-center justify-center shrink-0`}>
+                  <div className={`w-9 h-9 rounded-xs ${cfg.bg} flex items-center justify-center shrink-0`}>
                     <FontAwesomeIcon icon={cfg.icon} className={`w-4 h-4 ${cfg.color}`} />
                   </div>
                   <div>
-                    <p className="font-semibold text-navy">{item.title}</p>
+                    <p className="font-semibold text-pink-900">{item.title}</p>
                     <p className="text-xs text-gray-500 mt-0.5 line-clamp-1">{item.description}</p>
                   </div>
                 </div>
@@ -122,7 +123,7 @@ export default function PortfolioEditor() {
       )}
 
       {editing && (
-        <form onSubmit={handleSave} className="bg-gray-50 border border-gray-200 rounded-xl p-6 space-y-4">
+        <form onSubmit={handleSave} className="bg-gray-50 border border-gray-200 rounded-xs p-6 space-y-4">
           <h3 className="font-bold text-navy">
             {editing.id! > 0 ? 'Edit Item' : 'Tambah Item'}
           </h3>
@@ -176,9 +177,9 @@ export default function PortfolioEditor() {
               }}
             />
             {form.url && (form.type === 'image' ? (
-              <img src={getFullUrl(form.url)} alt="Preview" className="mt-2 h-24 rounded-lg object-cover border" />
+              <img src={getFullUrl(form.url)} alt="Preview" className="mt-2 h-24 rounded-xs object-cover border" />
             ) : form.type === 'video' ? (
-              <video src={getFullUrl(form.url)} controls className="mt-2 h-24 rounded-lg border" />
+              <video src={getFullUrl(form.url)} controls className="mt-2 h-24 rounded-xs border" />
             ) : (
               <a href={getFullUrl(form.url)} target="_blank" rel="noopener noreferrer" className="block mt-2 text-blue-600 underline">Lihat File</a>
             ))}
@@ -211,7 +212,7 @@ export default function PortfolioEditor() {
             />
             {form.thumbnail_url && (
               <img src={getFullUrl(form.thumbnail_url)} alt="Preview"
-                className="mt-2 h-24 rounded-lg object-cover border" />
+                className="mt-2 h-24 rounded-xs object-cover border" />
             )}
           </div>
 
@@ -223,15 +224,15 @@ export default function PortfolioEditor() {
           )}
 
           <div className="flex gap-3">
-            <button type="submit" disabled={saving} className="btn-primary text-sm py-2 disabled:opacity-60">
+            <Button type="submit" variant="primary" className="text-sm py-2 disabled:opacity-60" disabled={saving}>
               {saving ? (
                 <><FontAwesomeIcon icon={faSpinner} className="w-3.5 h-3.5 animate-spin" /> Menyimpan...</>
               ) : (
                 <><FontAwesomeIcon icon={faFloppyDisk} className="w-3.5 h-3.5" /> Simpan</>
               )}
-            </button>
+            </Button>
             <button type="button" onClick={() => { setEditing(null); setMsg(''); }}
-              className="inline-flex items-center gap-1.5 text-sm px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 font-medium">
+              className="inline-flex items-center gap-1.5 text-sm px-4 py-2 rounded-xs bg-gray-200 hover:bg-gray-300 font-medium">
               <FontAwesomeIcon icon={faXmark} className="w-3.5 h-3.5" /> Batal
             </button>
           </div>

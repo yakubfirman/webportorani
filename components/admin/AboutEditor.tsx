@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFloppyDisk, faCircleCheck, faCircleXmark, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { AboutData } from '../../types';
 import { api } from '../../lib/api';
+import Button from '../ui/Button';
 
 export default function AboutEditor() {
   const [data, setData]   = useState<AboutData>({ content: '', photo_url: '' });
@@ -39,7 +40,7 @@ export default function AboutEditor() {
     }
   };
 
-  const inputCls = 'w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-navy/30 focus:border-navy transition-colors';
+  const inputCls = 'w-full border-2 border-pink-300 rounded-xs px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-pink-400 transition-colors';
   const labelCls = 'block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5';
 
   if (loading) return (
@@ -51,7 +52,7 @@ export default function AboutEditor() {
 
   return (
     <form onSubmit={handleSave} className="space-y-5 max-w-2xl">
-      <h2 className="text-lg font-bold text-navy">Edit Tentang Saya</h2>
+      <h2 className="text-lg font-bold text-pink-900">Edit Tentang Saya</h2>
 
       <div>
         <label className={labelCls}>Narasi / Deskripsi</label>
@@ -88,7 +89,7 @@ export default function AboutEditor() {
         />
         {data.photo_url && (
           <img src={getFullUrl(data.photo_url)} alt="Preview"
-            className="mt-2 w-28 h-32 rounded-xl object-cover border-2 border-gray-200" />
+            className="mt-2 w-28 h-32 rounded-xs object-cover border-2 border-gray-200" />
         )}
       </div>
 
@@ -99,13 +100,13 @@ export default function AboutEditor() {
         </div>
       )}
 
-      <button type="submit" disabled={saving} className="btn-primary disabled:opacity-60">
+      <Button type="submit" variant="primary" className="disabled:opacity-60" disabled={saving}>
         {saving ? (
           <><FontAwesomeIcon icon={faSpinner} className="w-4 h-4 animate-spin" /> Menyimpan...</>
         ) : (
           <><FontAwesomeIcon icon={faFloppyDisk} className="w-4 h-4" /> Simpan Perubahan</>
         )}
-      </button>
+      </Button>
     </form>
   );
 }

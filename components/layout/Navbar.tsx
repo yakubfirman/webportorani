@@ -9,8 +9,19 @@ interface NavbarProps {
   heroName?: string;
 }
 
+interface TranslationKeys {
+  nav: {
+    about: string;
+    experience: string;
+    skills: string;
+    portfolio: string;
+    testimonials: string;
+    contact: string;
+    hireMe: string;
+  };
+}
 
-function getNavLinks(t: any) {
+function getNavLinks(t: TranslationKeys) {
   return [
     { href: '#about',        label: t.nav.about },
     { href: '#experience',   label: t.nav.experience },
@@ -21,127 +32,186 @@ function getNavLinks(t: any) {
   ];
 }
 
-
 export default function Navbar({ heroName }: NavbarProps) {
-  const { t, lang, setLang } = useI18n();
+  const { t } = useI18n();
   const navLinks = getNavLinks(t);
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('');
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener('scroll', handleScroll);
+    const handleScroll = () => setScrolled(window.scrollY > 60);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    const sections = navLinks.map(l => l.href.replace('#', ''));
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActiveSection(entry.target.id);
+        });
+      },
+      { rootMargin: '-40% 0px -55% 0px' }
+    );
+    sections.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 768) setMenuOpen(false);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+const firstTwoWords = heroName ? heroName.split(' ').slice(0, 2).join(' ') : 'Portfolio';
   return (
-    <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? 'bg-white/95 backdrop-blur-md shadow-lg py-3' : 'bg-transparent py-5'
-      }`}
-    >
-      <div className="container-max flex items-center justify-between px-6">
-        {/* Logo */}
-        <a
-          href="#hero"
-          className={`text-lg font-bold tracking-tight transition-colors ${
-            scrolled ? 'text-navy' : 'text-white'
-          }`}
-        >
-          <span className="text-gold">/</span>
-          {heroName ? heroName.split(' ')[0] : 'Portfolio'}
-          <span className="text-gold">.</span>
-        </a>
+    <>
+      <nav
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out ${
+          scrolled
+            ? 'bg-gradient-to-b from-white/99 to-white/95 backdrop-blur-xl shadow-[0_4px_20px_rgba(190,24,93,0.08)]'
+            : 'bg-gradient-to-b backdrop-blur-md'
+        }`}
+      >
+        <div className={`max-w-6xl mx-auto flex items-center justify-between px-6  transition-all ${
+          scrolled ? 'py-3' : 'py-5'
+        }`}>
 
-
-        {/* Desktop Links */}
-        <ul className="hidden md:flex items-center gap-7">
-          {navLinks.map((link) => (
-            <li key={link.href}>
-              <a
-                href={link.href}
-                className={`text-sm font-medium transition-colors relative group ${
-                  scrolled ? 'text-gray-700' : 'text-white/90'
-                }`}
-              >
-                {link.label}
-                <span className={`absolute -bottom-0.5 left-0 w-0 h-0.5 bg-gold rounded-full transition-all duration-300 group-hover:w-full`} />
-              </a>
-            </li>
-          ))}
-          {/* Language Switcher */}
-          <li>
-            <button
-              className={`px-3 py-1 rounded font-semibold border border-gold text-gold bg-white/10 hover:bg-gold hover:text-white transition-colors text-xs ml-2`}
-              onClick={() => setLang(lang === 'en' ? 'id' : 'en')}
-              aria-label="Switch language"
+          {/* Logo */}
+          <a
+            href="#hero"
+            className="group flex items-center gap-1.5 select-none"
+            aria-label="Home"
+          >
+            <span
+              className={`text-xl font-bold tracking-tight transition-colors duration-300 text-pink-500`}
             >
-              {lang === 'en' ? 'ID' : 'EN'}
-            </button>
-          </li>
-        </ul>
+              <span className="bg-gradient-to-r from-pink-600 to-rose-500 bg-clip-text text-transparent font-black"></span>
+              {firstTwoWords}
+            </span>
+            <span className="w-1.5 h-1.5 rounded-full bg-pink-500 mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          </a>
 
+          {/* Desktop Links */}
+          <ul className="hidden md:flex items-center gap-1">
+            {navLinks.map((link) => {
+              const isActive = activeSection === link.href.replace('#', '');
+              return (
+                <li key={link.href}>
+                  <a
+                    href={link.href}
+                    className={`relative px-4 py-2.5 text-sm font-semibold rounded-xs transition-all duration-200 flex items-center gap-2 ${
+                      scrolled
+                        ? isActive
+                          ? 'text-pink-600 font-bold'
+                          : 'text-slate-700 hover:text-pink-600'
+                        : isActive
+                        ? 'text-pink-600 bg-white/20 font-bold backdrop-blur-sm'
+                        : 'text-slate-700 hover:text-pink-600'
+                    }`}
+                  >
+                    {isActive && (
+                      <span className="w-2 h-2 rounded-full bg-pink-500 flex-shrink-0 animate-pulse" />
+                    )}
+                    {link.label}
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
 
-        {/* Desktop CTA */}
-        <a
-          href="#contact"
-          className={`hidden md:inline-flex items-center gap-2 text-sm font-semibold px-4 py-2 rounded-lg transition-all duration-200 ${
-            scrolled
-              ? 'bg-navy text-white hover:bg-navy/90'
-              : 'bg-white/15 text-white border border-white/30 hover:bg-white/25'
-          }`}
-        >
-          {t.nav.hireMe}
-        </a>
-
-        {/* Mobile hamburger */}
-        <button
-          className={`md:hidden w-9 h-9 rounded-lg flex items-center justify-center transition-colors ${
-            scrolled ? 'text-navy hover:bg-gray-100' : 'text-white hover:bg-white/10'
-          }`}
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Toggle menu"
-        >
-          <FontAwesomeIcon icon={menuOpen ? faXmark : faBars} className="w-5 h-5" />
-        </button>
-      </div>
-
-      {/* Mobile Menu */}
-      <div className={`md:hidden bg-white border-t border-gray-100 px-6 transition-all duration-300 overflow-hidden ${
-        menuOpen ? 'max-h-80 py-4 shadow-xl' : 'max-h-0'
-      }`}>
-        <ul className="flex flex-col gap-1">
-          {navLinks.map((link) => (
-            <li key={link.href}>
-              <a
-                href={link.href}
-                className="text-gray-700 font-medium hover:text-navy hover:bg-gray-50 block px-3 py-2.5 rounded-lg transition-colors"
-                onClick={() => setMenuOpen(false)}
-              >
-                {link.label}
-              </a>
-            </li>
-          ))}
-          <li className="mt-2 pt-2 border-t border-gray-100">
+          {/* Desktop CTA */}
+          <div className="hidden md:flex items-center gap-3">
             <a
               href="#contact"
-              className="block text-center bg-navy text-white font-semibold px-4 py-2.5 rounded-lg hover:bg-navy/90 transition-colors"
+              className="group relative inline-flex items-center gap-2 text-sm font-bold px-6 py-2.5 rounded-xs transition-all duration-300 overflow-hidden shadow-lg hover:shadow-xl hover:-translate-y-0.5 bg-gradient-to-r from-pink-600 to-rose-500 text-white hover:from-pink-700 hover:to-rose-600 hover:scale-105"
+            >
+              <span className="relative z-10">{t.nav.hireMe}</span>
+              <svg
+                className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-0.5"
+                viewBox="0 0 14 14"
+                fill="none"
+              >
+                <path d="M1 7h12M8 3l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </a>
+          </div>
+
+          {/* Mobile Hamburger */}
+          <button
+            className={`md:hidden w-9 h-9 rounded-xs flex items-center justify-center transition-all duration-200 ${
+              scrolled
+                ? 'text-slate-700 hover:bg-slate-100 active:scale-95'
+                : 'text-pink-500 hover:bg-white/15 active:scale-95'
+            }`}
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Toggle menu"
+            aria-expanded={menuOpen}
+          >
+            <FontAwesomeIcon
+              icon={menuOpen ? faXmark : faBars}
+              className={`w-[18px] h-[18px] transition-transform duration-200 ${menuOpen ? 'rotate-90' : 'rotate-0'}`}
+            />
+          </button>
+        </div>
+
+        {/* Mobile Menu */}
+        <div
+          className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
+            menuOpen ? 'max-h-[420px] opacity-100' : 'max-h-0 opacity-0'
+          }`}
+        >
+          <div className="bg-white backdrop-blur-xl border-t border-pink-100 px-4 pt-4 pb-5 shadow-xl">
+            <ul className="flex flex-col gap-0.5 mb-3">
+              {navLinks.map((link) => {
+                const isActive = activeSection === link.href.replace('#', '');
+                return (
+                  <li key={link.href}>
+                    <a
+                      href={link.href}
+                      className={`flex items-center gap-3 px-4 py-3 rounded-xs text-sm font-semibold transition-all duration-150 ${
+                        isActive
+                          ? 'text-white bg-gradient-to-r from-pink-600 to-rose-500 font-bold shadow-md'
+                          : 'text-slate-700 hover:text-pink-600 hover:bg-pink-50'
+                      }`}
+                      onClick={() => setMenuOpen(false)}
+                    >
+                      {isActive && <span className="w-2 h-2 rounded-full bg-white flex-shrink-0" />}
+                      {link.label}
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+            <a
+              href="#contact"
+              className="flex items-center justify-center gap-2 w-full bg-gradient-to-r from-pink-600 to-rose-500 text-white font-semibold text-sm px-4 py-3 rounded-xs hover:from-pink-700 hover:to-rose-600 transition-all shadow-lg hover:shadow-xl active:scale-95"
               onClick={() => setMenuOpen(false)}
             >
               {t.nav.hireMe}
+              <svg className="w-3.5 h-3.5" viewBox="0 0 14 14" fill="none">
+                <path d="M1 7h12M8 3l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
             </a>
-          </li>
-          <li className="mt-2 flex justify-center">
-            <button
-              className="px-3 py-1 rounded font-semibold border border-gold text-gold bg-white/10 hover:bg-gold hover:text-white transition-colors text-xs"
-              onClick={() => setLang(lang === 'en' ? 'id' : 'en')}
-              aria-label="Switch language"
-            >
-              {lang === 'en' ? 'ID' : 'EN'}
-            </button>
-          </li>
-        </ul>
-      </div>
-    </nav>
+          </div>
+        </div>
+      </nav>
+
+      {/* Mobile menu backdrop */}
+      {menuOpen && (
+        <div
+          className="fixed inset-0 z-40 bg-black/20 md:hidden backdrop-blur-sm"
+          onClick={() => setMenuOpen(false)}
+          aria-hidden="true"
+        />
+      )}
+    </>
   );
 }

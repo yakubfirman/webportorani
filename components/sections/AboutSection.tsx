@@ -1,3 +1,4 @@
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGraduationCap, faLocationDot, faLanguage, faCircleCheck, faUser } from '@fortawesome/free-solid-svg-icons';
 import { AboutData } from '../../types';
@@ -7,12 +8,9 @@ interface Props {
 }
 
 const infoCards = [
-  { icon: faGraduationCap, label: 'Pendidikan',  value: 'S1 Pendidikan Bahasa Inggris', color: 'text-blue-500',  bg: 'bg-blue-50' },
-  { icon: faLocationDot,   label: 'Lokasi',       value: 'Bandung, Indonesia',          color: 'text-red-500',   bg: 'bg-red-50'  },
-  { icon: faLanguage,      label: 'Bahasa',        value: 'Indonesia & English',         color: 'text-green-600', bg: 'bg-green-50'},
-  { icon: faCircleCheck,   label: 'Status',        value: 'Terbuka untuk Peluang',       color: 'text-gold',      bg: 'bg-amber-50'},
+  { icon: faGraduationCap, label: 'Pendidikan',  value: 'S1 Pendidikan Bahasa Inggris', color: 'text-pink-500',  bg: 'bg-pink-50' },
+  { icon: faLocationDot,   label: 'Lokasi',       value: 'Tuban, East Java',          color: 'text-purple-400',   bg: 'bg-purple-50'  },
 ];
-
 
 // Helper agar preview file/gambar/file selalu benar ke backend
 const getFullUrl = (url: string) =>
@@ -24,70 +22,61 @@ export default function AboutSection({ data }: Props) {
   const paragraphs = content.split('\n\n').filter(Boolean);
 
   return (
-    <section id="about" className="section-padding bg-white">
-      <div className="container-max">
+    <section id="about" className="relative py-20 px-6 overflow-hidden">
+      {/* Decorative blob */}
+      <div className="absolute -top-20 -left-20 w-72 h-72 rounded-xs opacity-20 pointer-events-none animate-pulse-slow"
+        style={{ background: 'radial-gradient(circle, #f9c6d3, transparent)', filter: 'blur(70px)' }} />
+      <div className="absolute bottom-0 right-0 w-64 h-64 rounded-xs opacity-20 pointer-events-none animate-pulse-slower"
+        style={{ background: 'radial-gradient(circle, #e0bbff, transparent)', filter: 'blur(60px)' }} />
+
+        <div className="max-w-6xl mx-auto w-full">
         {/* Header */}
-        <div className="text-center mb-14">
-          <span className="badge mb-3">Tentang Saya</span>
-          <h2 className="section-title">Mengenal Saya Lebih Dekat</h2>
-          <div className="w-16 h-1 bg-gold rounded-full mx-auto mt-3" />
+        <div className="text-center mb-16 animate-fade-in">
+          <h2 className="section-title text-4xl md:text-5xl font-bold animate-fade-in delay-100 mb-6">About Me</h2>
+          <div className="w-16 h-1 rounded-xs mx-auto animate-fade-in delay-200" style={{background: 'linear-gradient(90deg, #be185d, #e0bbff)'}} />
         </div>
 
-        <div className="flex flex-col md:flex-row items-center gap-14">
+        <div className="flex flex-col md:flex-row items-center gap-16 animate-fade-in delay-100">
           {/* Photo */}
           <div className="shrink-0 relative">
             {/* Decorative blocks */}
-            <div className="absolute -bottom-5 -right-5 w-28 h-28 rounded-3xl -z-10"
-              style={{ background: 'linear-gradient(135deg, #be185d20, #7c3aed20)' }} />
-            <div className="absolute -top-5 -left-5 w-20 h-20 rounded-full -z-10"
+            <div className="absolute -bottom-3 -right-3 w-16 h-16 rounded-xs -z-10 animate-fade-in delay-200"
+              style={{ background: 'linear-gradient(135deg, #f9c6d3 60%, #e0bbff 100%)' }} />
+            <div className="absolute -top-3 -left-3 w-12 h-12 rounded-xs -z-10 animate-fade-in delay-300"
               style={{ background: 'radial-gradient(circle, #fce7f3, transparent)' }} />
 
-            <div className="w-64 h-72 md:w-72 md:h-80 rounded-3xl overflow-hidden shadow-2xl
-                            bg-gradient-to-br from-slate to-gray-100 flex items-center justify-center border border-gray-100">
+            <div className="w-48 h-56 sm:w-56 sm:h-64 md:w-64 md:h-72 rounded-xs overflow-hidden shadow-lg bg-white flex items-center justify-center border-2 border-pink-300 transition-all duration-500 hover:scale-105">
               {photoUrl ? (
-                <img src={photoUrl} alt="About" className="w-full h-full object-cover" />
+                <img src={photoUrl} alt="About" className="w-full h-full object-cover transition-all duration-500 hover:scale-110" />
               ) : (
-                <FontAwesomeIcon icon={faUser} className="w-24 h-24 text-gray-300" />
+                <FontAwesomeIcon icon={faUser} className="w-20 h-20 text-pink-200" />
               )}
             </div>
 
-            {/* Experience badge */}
-            <div className="absolute -bottom-3 -left-3 text-white text-xs font-bold px-4 py-2 rounded-2xl shadow-lg"
-              style={{ background: 'linear-gradient(135deg, #be185d, #9d174d)' }}>
-              2+ Years Experience
-            </div>
+            
           </div>
 
-          {/* Text */}
+          {/* Content */}
           <div className="flex-1">
-            <h3 className="text-2xl font-bold text-navy mb-2">
-              Pendidik Bahasa Inggris yang Berdedikasi
-            </h3>
-            <div className="w-12 h-1 rounded-full mb-5" style={{ background: 'linear-gradient(90deg, #be185d, #7c3aed)' }} />
-
-            <div className="space-y-4 text-gray-600 leading-relaxed mb-8">
-              {paragraphs.length > 0 ? (
-                paragraphs.map((p, i) => <p key={i}>{p}</p>)
-              ) : (
-                <p className="text-gray-400 italic">Belum ada konten tentang saya.</p>
-              )}
-            </div>
-
-            {/* Key Info Cards */}
-            <div className="grid grid-cols-2 gap-3">
-              {infoCards.map((item) => (
-                <div key={item.label}
-                  className="rounded-xl p-4 flex items-start gap-3 border border-gray-100 hover:border-gold/30 hover:shadow-sm transition-all">
-                  <div className={`w-9 h-9 rounded-xl ${item.bg} flex items-center justify-center shrink-0`}>
-                    <FontAwesomeIcon icon={item.icon} className={`w-4 h-4 ${item.color}`} />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-7">
+              {infoCards.map((card, i) => (
+                <div key={i} className={`flex items-center gap-3 p-4 rounded-xs shadow border-2 ${card.bg} ${card.color} bg-opacity-90 transition-all duration-300 hover:shadow-lg hover:scale-105`}>
+                  <div className={`w-10 h-10 rounded-xs flex items-center justify-center ${card.bg} ${card.color} shadow-sm`}>
+                    <FontAwesomeIcon icon={card.icon} className="w-5 h-5" />
                   </div>
                   <div>
-                    <p className="text-xs text-gray-400 font-medium uppercase tracking-wider">{item.label}</p>
-                    <p className="text-sm text-navy font-semibold mt-0.5 leading-tight">{item.value}</p>
+                    <div className="text-xs font-bold uppercase tracking-wider mb-1 opacity-80">{card.label}</div>
+                    <div className="text-sm font-semibold">{card.value}</div>
                   </div>
                 </div>
               ))}
             </div>
+
+            {paragraphs.map((p, i) => (
+              <p key={i} className="mb-4 text-slate-700 text-base leading-relaxed animate-fade-in delay-200">
+                {p}
+              </p>
+            ))}
           </div>
         </div>
       </div>

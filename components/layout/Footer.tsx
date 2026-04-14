@@ -6,11 +6,11 @@ export default function Footer() {
   const year = new Date().getFullYear();
   return (
     <footer style={{ background: 'linear-gradient(135deg, #1e1b4b 0%, #12104a 100%)' }} className="text-white">
-      <div className="container-max px-6 py-10">
+      <div className="max-w-7xl mx-auto px-6 py-10">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           {/* Brand */}
           <div className="text-center md:text-left">
-            <p className="text-white font-bold text-lg" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
+            <p className="text-white font-bold text-lg" style={{ fontFamily: "'Catamaran', sans-serif", fontWeight: 900 }}>
               <span className="text-gold">✦</span> Portfolio <span className="text-gold">✦</span>
             </p>
             <p className="text-white/40 text-xs mt-1">English Educator &amp; Curriculum Specialist</p>
@@ -31,11 +31,11 @@ export default function Footer() {
           {/* Social */}
           <div className="flex items-center gap-3">
             <a href="#contact"
-              className="w-9 h-9 rounded-lg bg-white/10 hover:bg-gold hover:text-white flex items-center justify-center transition-all text-white/60">
+              className="w-9 h-9 rounded-xs bg-white/10 hover:bg-gold hover:text-white flex items-center justify-center transition-all text-white/60">
               <FontAwesomeIcon icon={faLinkedinIn} className="w-4 h-4" />
             </a>
             <a href="#contact"
-              className="w-9 h-9 rounded-lg bg-white/10 hover:bg-gold hover:text-white flex items-center justify-center transition-all text-white/60">
+              className="w-9 h-9 rounded-xs bg-white/10 hover:bg-gold hover:text-white flex items-center justify-center transition-all text-white/60">
               <FontAwesomeIcon icon={faGithub} className="w-4 h-4" />
             </a>
           </div>

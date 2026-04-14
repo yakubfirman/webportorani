@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFloppyDisk, faCircleCheck, faCircleXmark, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { HeroData } from '../../types';
 import { api } from '../../lib/api';
+import Button from '../ui/Button';
 
 interface Props {
   onSaved?: () => void;
@@ -46,8 +47,8 @@ export default function HeroEditor({ onSaved }: Props) {
     }
   };
 
-  const inputCls = 'w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-navy/30 focus:border-navy transition-colors';
-  const labelCls = 'block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5';
+  const inputCls = 'w-full border-2 border-pink-300 rounded-xs px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-pink-400 transition-colors';
+  const labelCls = 'block text-xs font-semibold text-pink-700 uppercase tracking-wider mb-1.5';
 
   if (loading) return (
     <div className="flex items-center gap-2 py-12 text-gray-400 justify-center">
@@ -58,7 +59,7 @@ export default function HeroEditor({ onSaved }: Props) {
 
   return (
     <form onSubmit={handleSave} className="space-y-5 max-w-2xl">
-      <h2 className="text-lg font-bold text-navy">Edit Hero Section</h2>
+      <h2 className="text-lg font-bold text-pink-900">Edit Hero Section</h2>
 
       <div>
         <label className={labelCls}>Nama Lengkap</label>
@@ -108,7 +109,7 @@ export default function HeroEditor({ onSaved }: Props) {
         />
         {data.photo_url && (
           <img src={getFullUrl(data.photo_url)} alt="Preview"
-            className="mt-2 w-24 h-24 rounded-full object-cover border-2 border-gold" />
+            className="mt-2 w-24 h-24 rounded-full object-cover border-2 border-pink-300" />
         )}
       </div>
 
@@ -149,13 +150,13 @@ export default function HeroEditor({ onSaved }: Props) {
         </div>
       )}
 
-      <button type="submit" disabled={saving} className="btn-primary disabled:opacity-60">
+      <Button type="submit" variant="primary" className="disabled:opacity-60" disabled={saving}>
         {saving ? (
           <><FontAwesomeIcon icon={faSpinner} className="w-4 h-4 animate-spin" /> Menyimpan...</>
         ) : (
           <><FontAwesomeIcon icon={faFloppyDisk} className="w-4 h-4" /> Simpan Perubahan</>
         )}
-      </button>
+      </Button>
     </form>
   );
 }

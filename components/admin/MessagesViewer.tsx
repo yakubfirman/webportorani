@@ -45,8 +45,8 @@ export default function MessagesViewer() {
   return (
     <div className="max-w-3xl">
       <div className="flex items-center gap-3 mb-6">
-        <FontAwesomeIcon icon={faEnvelope} className="w-5 h-5 text-navy" />
-        <h2 className="text-lg font-bold text-navy">Pesan Masuk</h2>
+        <FontAwesomeIcon icon={faEnvelope} className="w-5 h-5 text-pink-600" />
+        <h2 className="text-lg font-bold text-pink-900">Pesan Masuk</h2>
         {unreadCount > 0 && (
           <span className="bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
             {unreadCount} baru
@@ -66,7 +66,7 @@ export default function MessagesViewer() {
           {messages.map((msg) => (
             <div
               key={msg.id}
-              className={`border rounded-xl overflow-hidden transition-colors ${
+              className={`border rounded-xs overflow-hidden transition-colors ${
                 msg.is_read ? 'border-gray-200 bg-white' : 'border-blue-200 bg-blue-50'
               }`}
             >
@@ -80,7 +80,7 @@ export default function MessagesViewer() {
                     <span className="mt-1.5 w-2 h-2 rounded-full bg-blue-500 shrink-0" />
                   )}
                   <div className="min-w-0">
-                    <p className="font-semibold text-navy truncate">{msg.name}</p>
+                    <p className="font-semibold text-pink-900 truncate">{msg.name}</p>
                     <p className="text-xs text-gray-500">{msg.email}</p>
                     {msg.subject && (
                       <p className="text-sm text-gray-700 mt-0.5 font-medium truncate">{msg.subject}</p>
@@ -109,21 +109,21 @@ export default function MessagesViewer() {
                   <div className="flex gap-3 mt-4">
                     <a
                       href={`mailto:${msg.email}`}
-                      className="inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg bg-navy text-white font-medium hover:bg-navy/90 transition-colors"
+                      className="inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-xs bg-pink-600 text-white font-medium hover:bg-pink-700 transition-colors"
                     >
                       <FontAwesomeIcon icon={faReply} className="w-3 h-3" /> Balas Email
                     </a>
                     {!msg.is_read && (
                       <button
                         onClick={() => handleRead(msg.id!)}
-                        className="inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg bg-green-50 text-green-700 hover:bg-green-100 font-medium"
+                        className="inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-xs bg-green-50 text-green-700 hover:bg-green-100 font-medium"
                       >
                         <FontAwesomeIcon icon={faCheckDouble} className="w-3 h-3" /> Tandai Dibaca
                       </button>
                     )}
                     <button
                       onClick={() => handleDelete(msg.id!)}
-                      className="inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg bg-red-50 hover:bg-red-100 text-red-600 font-medium"
+                      className="inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-xs bg-red-50 hover:bg-red-100 text-red-600 font-medium"
                     >
                       <FontAwesomeIcon icon={faTrash} className="w-3 h-3" /> Hapus
                     </button>

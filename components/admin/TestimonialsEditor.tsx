@@ -11,6 +11,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { TestimonialData } from '../../types';
 import { api } from '../../lib/api';
+import Button from '../ui/Button';
 
 const emptyTestimonial = (): Omit<TestimonialData, 'id'> => ({
   name: '', role: '', content: '', photo_url: '', order: 0,
@@ -64,7 +65,7 @@ export default function TestimonialsEditor() {
     await load();
   };
 
-  const inputCls = 'w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-navy/30 focus:border-navy transition-colors';
+  const inputCls = 'w-full border-2 border-pink-300 rounded-xs px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-pink-400 transition-colors';
   const labelCls = 'block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5';
 
   if (loading) return (
@@ -77,22 +78,22 @@ export default function TestimonialsEditor() {
   return (
     <div className="max-w-3xl">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-lg font-bold text-navy">Testimoni</h2>
-        <button onClick={openNew} className="btn-primary text-sm py-2">
+        <h2 className="text-lg font-bold text-pink-900">Testimoni</h2>
+        <Button onClick={openNew} variant="primary" className="text-sm py-2">
           <FontAwesomeIcon icon={faPlus} className="w-3.5 h-3.5" /> Tambah
-        </button>
+        </Button>
       </div>
 
       {!editing && (
         <div className="space-y-3 mb-6">
           {items.map((item) => (
-            <div key={item.id} className="bg-white border border-gray-200 rounded-xl p-4 flex justify-between items-start gap-4">
+            <div key={item.id} className="bg-white border border-gray-200 rounded-xs p-4 flex justify-between items-start gap-4">
               <div className="flex items-start gap-3">
-                <div className="w-10 h-10 rounded-full bg-navy/10 flex items-center justify-center shrink-0">
-                  <FontAwesomeIcon icon={faQuoteLeft} className="w-4 h-4 text-navy/40" />
+                <div className="w-10 h-10 rounded-xs bg-pink-100 flex items-center justify-center shrink-0">
+                  <FontAwesomeIcon icon={faQuoteLeft} className="w-4 h-4 text-pink-600" />
                 </div>
                 <div>
-                  <p className="font-semibold text-navy">{item.name}</p>
+                  <p className="font-semibold text-pink-900">{item.name}</p>
                   <p className="text-xs text-gray-500">{item.role}</p>
                   <p className="text-sm text-gray-600 mt-1 line-clamp-2 italic">&ldquo;{item.content}&rdquo;</p>
                 </div>
@@ -114,7 +115,7 @@ export default function TestimonialsEditor() {
       )}
 
       {editing && (
-        <form onSubmit={handleSave} className="bg-gray-50 border border-gray-200 rounded-xl p-6 space-y-4">
+        <form onSubmit={handleSave} className="bg-gray-50 border border-gray-200 rounded-xs p-6 space-y-4">
           <h3 className="font-bold text-navy">
             {editing.id! > 0 ? 'Edit Testimoni' : 'Tambah Testimoni'}
           </h3>
@@ -177,15 +178,15 @@ export default function TestimonialsEditor() {
           )}
 
           <div className="flex gap-3">
-            <button type="submit" disabled={saving} className="btn-primary text-sm py-2 disabled:opacity-60">
+            <Button type="submit" variant="primary" className="text-sm py-2 disabled:opacity-60" disabled={saving}>
               {saving ? (
                 <><FontAwesomeIcon icon={faSpinner} className="w-3.5 h-3.5 animate-spin" /> Menyimpan...</>
               ) : (
                 <><FontAwesomeIcon icon={faFloppyDisk} className="w-3.5 h-3.5" /> Simpan</>
               )}
-            </button>
+            </Button>
             <button type="button" onClick={() => { setEditing(null); setMsg(''); }}
-              className="inline-flex items-center gap-1.5 text-sm px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 font-medium">
+              className="inline-flex items-center gap-1.5 text-sm px-4 py-2 rounded-xs bg-gray-200 hover:bg-gray-300 font-medium">
               <FontAwesomeIcon icon={faXmark} className="w-3.5 h-3.5" /> Batal
             </button>
           </div>

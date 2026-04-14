@@ -8,6 +8,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { ExperienceData } from '../../types';
 import { api } from '../../lib/api';
+import Button from '../ui/Button';
 
 const emptyExp = (): Omit<ExperienceData, 'id'> => ({
   title: '', institution: '', type: 'formal', period: '',
@@ -75,7 +76,7 @@ export default function ExperienceEditor() {
     await load();
   };
 
-  const inputCls = 'w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-navy/30 focus:border-navy transition-colors';
+  const inputCls = 'w-full border-2 border-pink-300 rounded-xs px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-pink-400 transition-colors';
   const labelCls = 'block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5';
 
   if (loading) return (
@@ -88,33 +89,33 @@ export default function ExperienceEditor() {
   return (
     <div className="max-w-3xl">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-lg font-bold text-navy">Pengalaman &amp; PKL</h2>
-        <button onClick={openNew} className="btn-primary text-sm py-2">
+        <h2 className="text-lg font-bold text-pink-900">Pengalaman &amp; PKL</h2>
+        <Button onClick={openNew} variant="primary" className="text-sm py-2">
           <FontAwesomeIcon icon={faPlus} className="w-3.5 h-3.5" /> Tambah
-        </button>
+        </Button>
       </div>
 
       {/* List */}
       {!editing && (
         <div className="space-y-3 mb-6">
           {items.map((item) => (
-            <div key={item.id} className="bg-white border border-gray-200 rounded-xl p-4 flex justify-between items-start gap-4">
+            <div key={item.id} className="bg-white border border-gray-200 rounded-xs p-4 flex justify-between items-start gap-4">
               <div>
                 <span className={`text-xs font-bold px-2 py-0.5 rounded-full mr-2 ${
                   item.type === 'pkl' ? 'bg-amber-100 text-amber-700' : 'bg-blue-100 text-blue-700'
                 }`}>
                   {item.type === 'pkl' ? 'PKL' : 'Formal'}
                 </span>
-                <span className="font-semibold text-navy">{item.title}</span>
+                <span className="font-semibold text-pink-900">{item.title}</span>
                 <p className="text-sm text-gray-500 mt-0.5">{item.institution} · {item.period}</p>
               </div>
               <div className="flex gap-2 shrink-0">
                 <button onClick={() => openEdit(item)}
-                  className="inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg bg-gray-100 hover:bg-gray-200 font-medium">
+                  className="inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-xs bg-gray-100 hover:bg-gray-200 font-medium">
                   <FontAwesomeIcon icon={faPencil} className="w-3 h-3" /> Edit
                 </button>
                 <button onClick={() => handleDelete(item.id!)}
-                  className="inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg bg-red-50 hover:bg-red-100 text-red-600 font-medium">
+                  className="inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-xs bg-red-50 hover:bg-red-100 text-red-600 font-medium">
                   <FontAwesomeIcon icon={faTrash} className="w-3 h-3" /> Hapus
                 </button>
               </div>
@@ -126,7 +127,7 @@ export default function ExperienceEditor() {
 
       {/* Form */}
       {editing && (
-        <form onSubmit={handleSave} className="bg-gray-50 border border-gray-200 rounded-xl p-6 space-y-4">
+        <form onSubmit={handleSave} className="bg-gray-50 border border-gray-200 rounded-xs p-6 space-y-4">
           <h3 className="font-bold text-navy">
             {editing.id! > 0 ? 'Edit Pengalaman' : 'Tambah Pengalaman'}
           </h3>
@@ -182,15 +183,15 @@ export default function ExperienceEditor() {
           )}
 
           <div className="flex gap-3">
-            <button type="submit" disabled={saving} className="btn-primary text-sm py-2 disabled:opacity-60">
+            <Button type="submit" variant="primary" className="text-sm py-2 disabled:opacity-60" disabled={saving}>
               {saving ? (
                 <><FontAwesomeIcon icon={faSpinner} className="w-3.5 h-3.5 animate-spin" /> Menyimpan...</>
               ) : (
                 <><FontAwesomeIcon icon={faFloppyDisk} className="w-3.5 h-3.5" /> Simpan</>
               )}
-            </button>
+            </Button>
             <button type="button" onClick={() => { setEditing(null); setMsg(''); }}
-              className="inline-flex items-center gap-1.5 text-sm px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 font-medium">
+              className="inline-flex items-center gap-1.5 text-sm px-4 py-2 rounded-xs bg-gray-200 hover:bg-gray-300 font-medium">
               <FontAwesomeIcon icon={faXmark} className="w-3.5 h-3.5" /> Batal
             </button>
           </div>
