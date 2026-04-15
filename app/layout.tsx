@@ -19,6 +19,7 @@ const geistMono = Geist_Mono({
 });
 
 const defaultMetadata: Metadata = {
+  title: "Maharani Rizka Ramadhani Wijaya",
   description: "Portfolio profesional lulusan Pendidikan Bahasa Inggris",
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://maharanirizka.vercel.app/'),
   icons: {
