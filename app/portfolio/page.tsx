@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
-import { PortfolioItemData, ContactInfoData } from '@/types';
+import { PortfolioItemData, ContactInfoData, HeroData } from '@/types';
 import PortfolioGrid from './PortfolioGrid';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://apiportomaharani.pythonanywhere.com';
@@ -31,9 +31,10 @@ export const metadata: Metadata = {
 };
 
 export default async function PortfolioPage() {
-  const [portfolioItems, contact] = await Promise.all([
+  const [portfolioItems, contact, hero] = await Promise.all([
     fetchJson('/api/portfolio') as Promise<PortfolioItemData[] | null>,
     fetchJson('/api/contact-info') as Promise<ContactInfoData | null>,
+    fetchJson('/api/hero') as Promise<HeroData | null>,
   ]);
   
   // Sort portfolio items by order (descending - latest first)
@@ -41,7 +42,7 @@ export default async function PortfolioPage() {
 
   return (
     <>
-      <Navbar />
+      <Navbar heroName={hero?.name} heroData={hero ?? undefined} />
       <main className="min-h-screen bg-white">
         {/* Hero Section */}
         <section className="relative py-16 md:py-24 px-6">
@@ -67,7 +68,7 @@ export default async function PortfolioPage() {
         </section>
 
         {/* Portfolio Section */}
-        <section className="relative py-20 px-6">
+        <section className="relative px-6">
           <div className="max-w-6xl mx-auto relative z-10">
             {sortedItems && sortedItems.length > 0 ? (
               <PortfolioGrid items={sortedItems} />

@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
-import { ExperienceData, ContactInfoData } from '@/types';
+import { ExperienceData, ContactInfoData, HeroData } from '@/types';
 import ExperienceGrid from './ExperienceGrid';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://apiportomaharani.pythonanywhere.com';
@@ -31,9 +31,10 @@ export const metadata: Metadata = {
 };
 
 export default async function ExperiencePage() {
-  const [experiences, contact] = await Promise.all([
+  const [experiences, contact, hero] = await Promise.all([
     fetchJson('/api/experiences') as Promise<ExperienceData[] | null>,
     fetchJson('/api/contact-info') as Promise<ContactInfoData | null>,
+    fetchJson('/api/hero') as Promise<HeroData | null>,
   ]);
   
   // Sort experiences by order (descending - latest first)
@@ -41,7 +42,7 @@ export default async function ExperiencePage() {
 
   return (
     <>
-      <Navbar />
+      <Navbar heroName={hero?.name} heroData={hero ?? undefined} />
       <main className="min-h-screen bg-white">
         {/* Hero Section */}
         <section className="relative py-16 md:py-24 px-6">

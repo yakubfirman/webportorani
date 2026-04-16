@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import { resolveUrl } from '@/lib/api';
-import { TestimonialData, ContactInfoData } from '@/types';
+import { TestimonialData, ContactInfoData, HeroData } from '@/types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faUser, faQuoteLeft } from '@fortawesome/free-solid-svg-icons';
 
@@ -33,9 +33,10 @@ export const metadata: Metadata = {
 };
 
 export default async function TestimonialsPage() {
-  const [testimonials, contact] = await Promise.all([
+  const [testimonials, contact, hero] = await Promise.all([
     fetchJson('/api/testimonials') as Promise<TestimonialData[] | null>,
     fetchJson('/api/contact-info') as Promise<ContactInfoData | null>,
+    fetchJson('/api/hero') as Promise<HeroData | null>,
   ]);
   
   // Sort testimonials by order (descending - latest first)
@@ -43,7 +44,7 @@ export default async function TestimonialsPage() {
 
   return (
     <>
-      <Navbar />
+      <Navbar heroName={hero?.name} heroData={hero ?? undefined} />
       <main className="min-h-screen bg-white">
         {/* Hero Section */}
         <section className="relative py-16 md:py-24 px-6">
