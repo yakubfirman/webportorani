@@ -50,6 +50,7 @@ export async function generateMetadata(): Promise<Metadata> {
       openGraph: {
         title: defaultMetadata.title,
         description: defaultMetadata.description,
+        siteName: 'Maharani Rizka Ramadhani Wijaya',
         images: [{ url: img, alt: 'Profile image' }],
       },
       twitter: {
