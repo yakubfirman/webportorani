@@ -12,7 +12,7 @@ function SkillBar({ skill }: { skill: SkillData }) {
   const pct = skill.level;
   const color = pct >= 80 ? '#be185d' : pct >= 60 ? '#e0bbff' : '#f9c6d3';
   return (
-    <div className="mb-6 group/skill relative">
+    <div className="mb-4 group/skill relative">
       <div className="flex justify-between items-center mb-2">
         <span className="text-sm font-semibold text-slate-700 group-hover/skill:text-pink-600 transition-colors">{skill.name}</span>
         <span
@@ -67,7 +67,7 @@ export default function SkillsSection({ data }: Props) {
 
       <div className="max-w-6xl mx-auto px-6 w-full relative z-10">
         {/* Header */}
-        <div className="text-center mb-16 animate-fade-in relative">
+        <div className="text-center mb-12 animate-fade-in relative">
           {/* Decorative quote marks */}
           <div className="absolute -top-6 left-1/2 -translate-x-1/2 opacity-5">
             <FontAwesomeIcon icon={faQuoteLeft} className="text-6xl text-pink-500" />
@@ -112,7 +112,7 @@ export default function SkillsSection({ data }: Props) {
             {/* Hover sparkle effect */}
             <div className="absolute -top-1 -right-1 w-2 h-2 bg-pink-400 rounded-full opacity-0 group-hover/card:opacity-100 transition-opacity"></div>
 
-            <div className="flex items-center gap-4 mb-8 pb-5 border-b border-pink-100 relative">
+            <div className="flex items-center gap-4 mb-6 pb-4 border-b border-pink-100 relative">
               <div className="w-12 h-12 rounded-xs bg-pink-50 flex items-center justify-center border border-pink-100 group-hover/card:scale-110 transition-transform duration-300 group-hover/card:border-pink-200 group-hover/card:shadow-sm">
                 <FontAwesomeIcon icon={faGears} className="w-5 h-5 text-pink-500" />
               </div>
@@ -143,7 +143,7 @@ export default function SkillsSection({ data }: Props) {
             {/* Hover sparkle effect */}
             <div className="absolute -top-1 -right-1 w-2 h-2 bg-purple-400 rounded-full opacity-0 group-hover/card:opacity-100 transition-opacity"></div>
 
-            <div className="flex items-center gap-4 mb-8 pb-5 border-b border-pink-100 relative">
+            <div className="flex items-center gap-4 mb-6 pb-4 border-b border-pink-100 relative">
               <div className="w-12 h-12 rounded-xs bg-purple-50 flex items-center justify-center border border-purple-100 group-hover/card:scale-110 transition-transform duration-300 group-hover/card:border-purple-200 group-hover/card:shadow-sm">
                 <FontAwesomeIcon icon={faLightbulb} className="w-5 h-5 text-purple-500" />
               </div>

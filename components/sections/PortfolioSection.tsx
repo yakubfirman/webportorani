@@ -1,16 +1,15 @@
 'use client';
 
 // Use central resolver for upload URLs
+import Link from 'next/link';
 import { resolveUrl } from '../../lib/api';
-import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faFileLines, faVideo, faImage, faFolderOpen,
-  faArrowUpRightFromSquare, faFilter, faQuoteLeft
+  faArrowUpRightFromSquare, faQuoteLeft, faArrowRight
 } from '@fortawesome/free-solid-svg-icons';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { PortfolioItemData } from '../../types';
-import Button from '../ui/Button';
 
 interface Props {
   data: PortfolioItemData[];
@@ -25,10 +24,8 @@ const typeConfig: Record<string, { icon: IconDefinition; label: string; color: s
 type FilterType = 'all' | 'document' | 'video' | 'image';
 
 export default function PortfolioSection({ data }: Props) {
-  const [filter, setFilter] = useState<FilterType>('all');
-
-  const filtered = filter === 'all' ? data : data.filter((item) => item.type === filter);
-  const availableTypes = Array.from(new Set(data.map((d) => d.type))) as FilterType[];
+  // Show only 3 latest portfolio items
+  const displayData = data.slice(0, 3);
 
   return (
     <section id="portfolio" className="relative py-20 overflow-hidden">
@@ -52,7 +49,7 @@ export default function PortfolioSection({ data }: Props) {
 
       <div className="max-w-6xl mx-auto px-6 w-full relative z-10">
         {/* Header */}
-        <div className="text-center mb-16 animate-fade-in relative">
+        <div className="text-center mb-12 animate-fade-in relative">
           {/* Decorative quote marks */}
           <div className="absolute -top-6 left-1/2 -translate-x-1/2 opacity-5">
             <FontAwesomeIcon icon={faQuoteLeft} className="text-6xl text-pink-500" />
@@ -80,56 +77,17 @@ export default function PortfolioSection({ data }: Props) {
           </div>
         </div>
 
-        {/* Filter Buttons */}
-        {data.length > 0 && (
-          <div className="flex justify-center flex-wrap gap-4 mb-12 animate-fade-in delay-100 relative">
-            <Button
-              onClick={() => setFilter('all')}
-              variant="ghost"
-              className={`inline-flex items-center gap-2 px-6 py-2.5 rounded-xs font-semibold text-sm transition-all duration-300 border-2 focus:outline-none relative overflow-hidden group ${
-                filter === 'all'
-                  ? 'bg-pink-50 text-pink-600 border-pink-400 shadow-md scale-105'
-                  : 'bg-white text-slate-500 border-pink-100 hover:text-pink-500 hover:bg-pink-50/50 hover:border-pink-300 shadow-sm'
-              }`}
-            >
-              <FontAwesomeIcon icon={faFilter} className={`w-3.5 h-3.5 transition-transform duration-300 ${filter === 'all' ? 'scale-110 text-pink-500' : 'group-hover:scale-110'}`} />
-              <span className="relative z-10">All</span>
-              {filter === 'all' && <div className="absolute -top-1 -right-1 w-2 h-2 bg-pink-400 rounded-full"></div>}
-            </Button>
-            
-            {availableTypes.map((type) => {
-              const cfg = typeConfig[type];
-              const isActive = filter === type;
-              return (
-                <Button
-                  key={type}
-                  onClick={() => setFilter(type)}
-                  variant="ghost"
-                  className={`inline-flex items-center gap-2 px-6 py-2.5 rounded-xs font-semibold text-sm transition-all duration-300 border-2 focus:outline-none relative overflow-hidden group ${
-                    isActive
-                      ? 'bg-pink-50 text-pink-600 border-pink-400 shadow-md scale-105'
-                      : 'bg-white text-slate-500 border-pink-100 hover:text-pink-500 hover:bg-pink-50/50 hover:border-pink-300 shadow-sm'
-                  }`}
-                >
-                  {cfg && <FontAwesomeIcon icon={cfg.icon} className={`w-3.5 h-3.5 transition-transform duration-300 ${isActive ? 'scale-110 text-pink-500' : 'group-hover:scale-110'}`} />}
-                  <span className="relative z-10">{cfg?.label ?? type}</span>
-                  {isActive && <div className="absolute -top-1 -right-1 w-2 h-2 bg-pink-400 rounded-full"></div>}
-                </Button>
-              );
-            })}
-          </div>
-        )}
-
         {/* Cards Grid */}
-        {filtered.length > 0 ? (
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 animate-fade-in delay-200">
-            {filtered.map((item, index) => {
-              const cfg = typeConfig[item.type];
-              return (
-                <div
-                  key={item.id ?? index}
-                  className="card flex flex-col h-full rounded-xs shadow border-2 border-pink-100/50 bg-white bg-opacity-90 p-5 transition-all duration-300 hover:shadow-lg hover:scale-[1.02] hover:-translate-y-1 relative overflow-hidden group/card"
-                >
+        {displayData.length > 0 ? (
+          <div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 animate-fade-in delay-200">
+              {displayData.map((item, index) => {
+                const cfg = typeConfig[item.type];
+                return (
+                  <div
+                    key={item.id ?? index}
+                    className="card flex flex-col h-full rounded-xs shadow border-2 border-pink-100/50 bg-white bg-opacity-90 p-3 transition-all duration-300 hover:shadow-lg hover:scale-[1.02] hover:-translate-y-1 relative overflow-hidden group/card"
+                  >
                   {/* Left accent bar */}
                   <div className="absolute -left-0.5 top-8 bottom-8 w-1 bg-gradient-to-b from-pink-500 to-purple-400 rounded-r-full opacity-70 group-hover/card:opacity-100 transition-opacity z-10"></div>
                   
@@ -142,7 +100,7 @@ export default function PortfolioSection({ data }: Props) {
                   <div className="absolute -top-1 -right-1 w-2 h-2 bg-pink-400 rounded-full opacity-0 group-hover/card:opacity-100 transition-opacity z-20"></div>
 
                   {/* Thumbnail */}
-                  <div className="h-44 bg-gradient-to-br from-pink-50 to-purple-50 rounded-xs mb-5 flex items-center justify-center relative overflow-hidden border border-pink-100 group-hover/card:border-pink-200 transition-colors">
+                  <div className="h-32 bg-gradient-to-br from-pink-50 to-purple-50 rounded-xs mb-3 flex items-center justify-center relative overflow-hidden border border-pink-100 group-hover/card:border-pink-200 transition-colors">
                     {item.thumbnail_url ? (
                       <img
                         src={resolveUrl(item.thumbnail_url)}
@@ -175,12 +133,12 @@ export default function PortfolioSection({ data }: Props) {
 
                   {/* Content Container (flex-grow ensures buttons align at bottom) */}
                   <div className="flex flex-col flex-grow">
-                    <h3 className="font-bold text-slate-800 text-lg mb-2 leading-snug group-hover/card:text-pink-600 transition-colors">
+                    <h3 className="font-bold text-slate-800 text-base mb-1.5 leading-snug group-hover/card:text-pink-600 transition-colors">
                       {item.title}
                     </h3>
 
                     {item.description && (
-                      <p className="text-slate-600 text-sm leading-relaxed mb-5 line-clamp-3">
+                      <p className="text-slate-600 text-xs leading-relaxed mb-3 line-clamp-2">
                         {item.description}
                       </p>
                     )}
@@ -207,6 +165,20 @@ export default function PortfolioSection({ data }: Props) {
                 </div>
               );
             })}
+            </div>
+
+            {/* View All Button */}
+            {data.length > 0 && (
+              <div className="flex justify-center mt-10">
+                <Link
+                  href="/portfolio"
+                  className="inline-flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-pink-500 to-purple-400 text-white font-semibold rounded-xs transition-all duration-300 hover:shadow-lg hover:scale-105 focus:outline-none"
+                >
+                  <span>Lihat Semua Portfolio</span>
+                  <FontAwesomeIcon icon={faArrowRight} className="w-4 h-4" />
+                </Link>
+              </div>
+            )}
           </div>
         ) : (
           <div className="text-center py-16 bg-white/50 backdrop-blur-sm rounded-xs border-2 border-dashed border-pink-200 max-w-3xl mx-auto">

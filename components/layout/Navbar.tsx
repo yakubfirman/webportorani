@@ -28,12 +28,12 @@ interface TranslationKeys {
 
 function getNavLinks(t: TranslationKeys) {
   return [
-    { href: '#about',        label: t.nav.about },
-    { href: '#experience',   label: t.nav.experience },
-    { href: '#skills',       label: t.nav.skills },
-    { href: '#portfolio',    label: t.nav.portfolio },
-    { href: '#testimonials', label: t.nav.testimonials },
-    { href: '#contact',      label: t.nav.contact },
+    { href: '/#about',        label: t.nav.about },
+    { href: '/#experience',   label: t.nav.experience },
+    { href: '/#skills',       label: t.nav.skills },
+    { href: '/#portfolio',    label: t.nav.portfolio },
+    { href: '/#testimonials', label: t.nav.testimonials },
+    { href: '/#contact',      label: t.nav.contact },
   ];
 }
 

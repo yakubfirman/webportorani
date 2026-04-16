@@ -104,7 +104,7 @@ export default async function Home() {
         <TestimonialsSection data={data.testimonials} />
         <ContactSection data={data.contact} />
       </main>
-      <Footer />
+      <Footer contactData={data.contact} />
       {/* Structured data (JSON-LD) for Person and WebSite to help search engines */}
       <script
         type="application/ld+json"

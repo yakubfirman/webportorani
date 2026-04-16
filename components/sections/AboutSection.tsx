@@ -40,7 +40,7 @@ export default function AboutSection({ data }: Props) {
 
       <div className="max-w-6xl mx-auto px-6 w-full relative z-10">
         {/* Header */}
-        <div className="text-center mb-16 animate-fade-in relative">
+        <div className="text-center mb-12 animate-fade-in relative">
           {/* Decorative quote marks */}
           <div className="absolute -top-6 left-1/2 -translate-x-1/2 opacity-5">
             <FontAwesomeIcon icon={faQuoteLeft} className="text-6xl text-pink-500" />
@@ -101,12 +101,12 @@ export default function AboutSection({ data }: Props) {
           {/* Content */}
           <div className="flex-1">
             {/* Info Cards with enhanced decoration */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-7 relative">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5 relative">
               {/* Connecting line between cards */}
               <div className="hidden md:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-px h-full bg-gradient-to-b from-transparent via-pink-200 to-transparent"></div>
               
               {infoCards.map((card, i) => (
-                <div key={i} className={`flex items-center gap-3 p-4 rounded-xs shadow border-2 ${card.bg} ${card.color} bg-opacity-90 transition-all duration-300 hover:shadow-lg hover:scale-105 hover:-translate-y-1 relative group`}>
+                <div key={i} className={`flex items-center gap-3 p-3 rounded-xs shadow border-2 ${card.bg} ${card.color} bg-opacity-90 transition-all duration-300 hover:shadow-lg hover:scale-105 hover:-translate-y-1 relative group`}>
                   {/* Corner accent */}
                   <div className="absolute top-0 right-0 w-8 h-8 overflow-hidden">
                     <div className={`absolute top-0 right-0 w-full h-full ${card.bg} opacity-50 transform rotate-45 translate-x-1/2 -translate-y-1/2`}></div>
@@ -137,7 +137,7 @@ export default function AboutSection({ data }: Props) {
               </div>
               
               {paragraphs.map((p, i) => (
-                <div key={i} className="relative mb-4">
+                <div key={i} className="relative mb-3">
                   {/* Left accent bar */}
                   {i === 0 && (
                     <div className="absolute -left-4 top-0 bottom-0 w-1 bg-gradient-to-b from-pink-500 to-purple-400 rounded-full"></div>

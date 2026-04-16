@@ -1,26 +1,21 @@
 'use client';
 
-import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSchool, faClipboardList, faCalendarDays, faCheck, faInbox, faQuoteLeft } from '@fortawesome/free-solid-svg-icons';
+import { faSchool, faClipboardList, faCalendarDays, faCheck, faInbox, faQuoteLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import Link from 'next/link';
 import { ExperienceData } from '../../types';
-import Button from '../ui/Button';
 
 interface Props {
   data: ExperienceData[];
 }
 
 export default function ExperienceSection({ data }: Props) {
-  const [activeTab, setActiveTab] = useState<'formal' | 'pkl'>('formal');
+  const displayData = data.slice(0, 3);
 
-  const formalExps = data.filter((e) => e.type === 'formal');
-  const pklExps    = data.filter((e) => e.type === 'pkl');
-  const displayed  = activeTab === 'formal' ? formalExps : pklExps;
-
-  const tabs = [
-    { id: 'formal' as const, label: 'Formal',  icon: faSchool        },
-    { id: 'pkl'    as const, label: 'PKL',     icon: faClipboardList },
-  ];
+  const typeConfig: Record<string, { icon: any; label: string; color: string; bg: string }> = {
+    formal: { icon: faSchool, label: 'Formal', color: 'text-pink-600', bg: 'bg-pink-50' },
+    pkl: { icon: faClipboardList, label: 'PKL', color: 'text-purple-600', bg: 'bg-purple-50' },
+  };
 
   return (
     <section id="experience" className="relative py-20 overflow-hidden">
@@ -44,7 +39,7 @@ export default function ExperienceSection({ data }: Props) {
 
       <div className="max-w-6xl mx-auto px-6 w-full relative z-10">
         {/* Header */}
-        <div className="text-center mb-16 animate-fade-in relative">
+        <div className="text-center mb-12 animate-fade-in relative">
           {/* Decorative quote marks */}
           <div className="absolute -top-6 left-1/2 -translate-x-1/2 opacity-5">
             <FontAwesomeIcon icon={faQuoteLeft} className="text-6xl text-purple-400" />
@@ -72,102 +67,104 @@ export default function ExperienceSection({ data }: Props) {
           </div>
         </div>
 
-        {/* Tabs */}
-        <div className="flex justify-center gap-4 mb-16 animate-fade-in delay-100 relative">
-          {tabs.map((tab) => (
-            <Button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              variant="ghost"
-              className={`inline-flex items-center gap-2 px-7 py-2.5 rounded-xs font-semibold text-sm transition-all duration-300 border-2 focus:outline-none relative overflow-hidden group ${
-                activeTab === tab.id
-                  ? 'bg-pink-50 text-pink-600 border-pink-400 shadow-md scale-105'
-                  : 'bg-white text-slate-500 border-pink-100 hover:text-pink-500 hover:bg-pink-50/50 hover:border-pink-300 shadow-sm'
-              }`}
-            >
-              <FontAwesomeIcon icon={tab.icon} className={`w-4 h-4 transition-transform duration-300 ${activeTab === tab.id ? 'scale-110 text-pink-500' : 'group-hover:scale-110'}`} />
-              <span className="relative z-10">{tab.label}</span>
-              
-              {/* Tab Hover/Active Sparkle Effect */}
-              {activeTab === tab.id && (
-                <div className="absolute -top-1 -right-1 w-2 h-2 bg-pink-400 rounded-full"></div>
-              )}
-            </Button>
-          ))}
-        </div>
-
-        {/* Timeline */}
-        <div className="relative max-w-4xl mx-auto animate-fade-in delay-200">
-          {/* Vertical line (desktop) with gradient matching About */}
-          <div className="absolute left-6 top-6 bottom-6 w-px hidden md:block bg-gradient-to-b from-transparent via-pink-300 to-transparent opacity-50" />
-
-          {displayed.length > 0 ? (
-            <div className="space-y-8">
-              {displayed.map((exp, index) => (
-                <div key={exp.id ?? index} className="relative flex flex-col md:flex-row gap-6 md:pl-16 group">
-                  {/* Timeline dot (desktop) */}
-                  <div className="hidden md:flex absolute left-3.5 top-8 w-6 h-6 rounded-full bg-pink-50 border-4 border-white shadow-md items-center justify-center group-hover:scale-110 transition-transform duration-300 group-hover:border-pink-100">
-                    <FontAwesomeIcon icon={exp.type === 'pkl' ? faClipboardList : faSchool} className="w-3 h-3 text-pink-500" />
-                    {/* Glow effect on hover */}
-                    <div className="absolute inset-0 rounded-full bg-pink-400 opacity-0 group-hover:opacity-40 blur-sm transition-opacity"></div>
-                  </div>
-
-                  {/* Card (Styled to match InfoCards and Text in AboutSection) */}
-                  <div className="card flex-1 rounded-xs shadow border-2 border-pink-100/50 bg-white bg-opacity-90 p-6 md:p-8 transition-all duration-300 hover:shadow-lg hover:scale-[1.01] hover:-translate-y-1 relative overflow-hidden group/card">
-                    
+        {/* Grid */}
+        {displayData.length > 0 ? (
+          <div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 animate-fade-in delay-200">
+              {displayData.map((exp, index) => {
+                const cfg = typeConfig[exp.type];
+                return (
+                  <div
+                    key={exp.id ?? index}
+                    className="card flex flex-col h-full rounded-xs shadow border-2 border-pink-100/50 bg-white bg-opacity-90 p-4 transition-all duration-300 hover:shadow-lg hover:scale-[1.02] hover:-translate-y-1 relative overflow-hidden group/card"
+                  >
                     {/* Left accent bar */}
-                    <div className="absolute -left-0.5 top-6 bottom-6 w-1 bg-gradient-to-b from-pink-500 to-purple-400 rounded-r-full opacity-70 group-hover/card:opacity-100 transition-opacity"></div>
+                    <div className="absolute -left-0.5 top-6 bottom-6 w-1 bg-gradient-to-b from-pink-500 to-purple-400 rounded-r-full opacity-70 group-hover/card:opacity-100 transition-opacity z-10"></div>
 
                     {/* Corner accent */}
-                    <div className="absolute top-0 right-0 w-12 h-12 overflow-hidden">
+                    <div className="absolute top-0 right-0 w-12 h-12 overflow-hidden z-10">
                       <div className="absolute top-0 right-0 w-full h-full bg-pink-50 opacity-50 transform rotate-45 translate-x-1/2 -translate-y-1/2 group-hover/card:bg-purple-50 transition-colors"></div>
                     </div>
 
                     {/* Hover sparkle effect */}
-                    <div className="absolute -top-1 -right-1 w-2 h-2 bg-pink-400 rounded-full opacity-0 group-hover/card:opacity-100 transition-opacity"></div>
+                    <div className="absolute -top-1 -right-1 w-2 h-2 bg-pink-400 rounded-full opacity-0 group-hover/card:opacity-100 transition-opacity z-20"></div>
 
-                    <div className="flex flex-wrap items-start justify-between gap-3 mb-4 relative">
-                      <div>
-                        <h3 className="text-lg md:text-xl font-bold text-slate-800 group-hover/card:text-pink-600 transition-colors">{exp.title}</h3>
-                        <p className="text-pink-500 font-semibold text-sm mt-1">{exp.institution}</p>
+                    {/* Type badge */}
+                    <div className="absolute top-3 right-3 z-10">
+                      <span className={`inline-flex items-center gap-1.5 text-[10px] uppercase tracking-wider font-bold px-2.5 py-1.5 rounded-xs ${cfg.bg} ${cfg.color} shadow-sm border border-white/60 backdrop-blur-sm`}>
+                        <FontAwesomeIcon icon={cfg.icon} className="w-3 h-3" />
+                        {cfg.label}
+                      </span>
+                    </div>
+
+                    {/* Content Container */}
+                    <div className="flex flex-col flex-grow">
+                      {/* Title and Institution */}
+                      <div className="mb-2">
+                        <h3 className="font-bold text-slate-800 text-sm leading-snug group-hover/card:text-pink-600 transition-colors">
+                          {exp.title}
+                        </h3>
+                        <p className="text-pink-500 font-semibold text-xs mt-0.5">{exp.institution}</p>
                       </div>
+
+                      {/* Period */}
                       {exp.period && (
-                        <span className="inline-flex items-center gap-1.5 text-xs md:text-sm font-medium text-purple-600 bg-purple-50 px-3 py-1.5 rounded-xs border border-purple-200 shadow-sm">
-                          <FontAwesomeIcon icon={faCalendarDays} className="w-3 h-3" />
+                        <span className="inline-flex items-center gap-1 text-[11px] font-medium text-purple-600 bg-purple-50 px-2 py-1 rounded-xs border border-purple-200 shadow-sm mb-2 w-fit">
+                          <FontAwesomeIcon icon={faCalendarDays} className="w-2.5 h-2.5" />
                           {exp.period}
                         </span>
                       )}
+
+                      {/* Description */}
+                      {exp.description && (
+                        <p className="text-slate-600 text-xs leading-relaxed mb-2 line-clamp-2">
+                          {exp.description}
+                        </p>
+                      )}
+
+                      {/* Responsibilities (limited to 3) */}
+                      {exp.responsibilities.length > 0 && (
+                        <ul className="space-y-1">
+                          {exp.responsibilities.slice(0, 3).map((r, i) => (
+                            <li key={i} className="flex items-start gap-2 text-xs text-slate-700 hover:text-slate-900 transition-colors">
+                              <span className="mt-0.5 shrink-0 w-3.5 h-3.5 rounded-xs bg-pink-50 flex items-center justify-center border border-pink-200">
+                                <FontAwesomeIcon icon={faCheck} className="w-2 h-2 text-pink-500" />
+                              </span>
+                              <span className="leading-relaxed line-clamp-1">{r}</span>
+                            </li>
+                          ))}
+                          {exp.responsibilities.length > 3 && (
+                            <li className="text-[10px] text-pink-500 font-semibold italic ml-5">
+                              +{exp.responsibilities.length - 3} lebih
+                            </li>
+                          )}
+                        </ul>
+                      )}
                     </div>
-
-                    {exp.description && (
-                      <p className="text-slate-700 text-sm md:text-base leading-relaxed mb-4 pl-1">
-                        {exp.description}
-                      </p>
-                    )}
-
-                    {exp.responsibilities.length > 0 && (
-                      <ul className="space-y-3 mt-4">
-                        {exp.responsibilities.map((r, i) => (
-                          <li key={i} className="flex items-start gap-3 text-sm text-slate-700 hover:text-slate-900 transition-colors">
-                            <span className="mt-0.5 shrink-0 w-5 h-5 rounded-xs bg-pink-50 flex items-center justify-center border border-pink-200">
-                              <FontAwesomeIcon icon={faCheck} className="w-2.5 h-2.5 text-pink-500" />
-                            </span>
-                            <span className="leading-relaxed">{r}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
-          ) : (
-            <div className="text-center py-16 bg-white/50 backdrop-blur-sm rounded-xs border-2 border-dashed border-pink-200">
-              <FontAwesomeIcon icon={faInbox} className="w-12 h-12 mx-auto mb-4 text-pink-300 opacity-50" />
-              <p className="text-lg text-slate-500 font-medium">Belum ada data pengalaman.</p>
-            </div>
-          )}
-        </div>
+
+            {/* View All Button */}
+            {displayData.length > 0 && (
+              <div className="flex justify-center mt-10">
+                <Link
+                  href="/experience"
+                  className="inline-flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-pink-500 to-purple-400 text-white font-semibold rounded-xs transition-all duration-300 hover:shadow-lg hover:scale-105 focus:outline-none"
+                >
+                  Lihat Semua Pengalaman
+                  <FontAwesomeIcon icon={faArrowRight} className="w-4 h-4" />
+                </Link>
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className="text-center py-16 bg-white/50 backdrop-blur-sm rounded-xs border-2 border-dashed border-pink-200">
+            <FontAwesomeIcon icon={faInbox} className="w-12 h-12 mx-auto mb-4 text-pink-300 opacity-50" />
+            <p className="text-lg text-slate-500 font-medium">Belum ada data pengalaman.</p>
+          </div>
+        )}
       </div>
     </section>
   );

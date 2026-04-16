@@ -112,7 +112,7 @@ export default function ContactSection({ data }: Props) {
 
       <div className="max-w-6xl mx-auto px-6 w-full relative z-10">
         {/* Header */}
-        <div className="text-center mb-16 animate-fade-in relative">
+        <div className="text-center mb-12 animate-fade-in relative">
           {/* Decorative quote marks */}
           <div className="absolute -top-6 left-1/2 -translate-x-1/2 opacity-5 pointer-events-none">
             <FontAwesomeIcon icon={faQuoteLeft} className="text-6xl text-pink-500" />
@@ -178,7 +178,7 @@ export default function ContactSection({ data }: Props) {
               {/* Hover sparkle effect */}
               <div className="absolute -top-1 -right-1 w-2 h-2 bg-pink-400 rounded-full opacity-0 group-hover/card:opacity-100 transition-opacity"></div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 relative z-10">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 relative z-10">
                 <div>
                   <label className="text-[11px] font-bold text-pink-600 uppercase tracking-widest block mb-2">Nama *</label>
                   <input
@@ -256,13 +256,13 @@ export default function ContactSection({ data }: Props) {
               Informasi Kontak
             </h3>
 
-            <div className="space-y-4 mb-8">
+            <div className="space-y-3 mb-6">
               {contactItems.map((item) => (
                 <a
                   key={item.label}
                   href={item.href}
                   {...(item.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                  className="flex items-center gap-4 group p-4 rounded-xs bg-white/70 hover:bg-white border border-pink-100 hover:border-pink-300 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 relative overflow-hidden"
+                  className="flex items-center gap-4 group p-3 rounded-xs bg-white/70 hover:bg-white border border-pink-100 hover:border-pink-300 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 relative overflow-hidden"
                 >
                   <div className={`w-12 h-12 rounded-xs ${item.iconBg} flex items-center justify-center shrink-0 border border-transparent ${item.hoverBg} transition-all duration-300`}>
                     <FontAwesomeIcon
@@ -280,7 +280,7 @@ export default function ContactSection({ data }: Props) {
 
             {/* Address Card */}
             {data?.address && (
-              <div className="bg-gradient-to-r from-pink-50/80 to-purple-50/80 border border-pink-200 rounded-xs p-5 flex items-start gap-4 shadow-sm hover:shadow-md transition-all duration-300">
+              <div className="bg-gradient-to-r from-pink-50/80 to-purple-50/80 border border-pink-200 rounded-xs p-4 flex items-start gap-4 shadow-sm hover:shadow-md transition-all duration-300">
                 <div className="w-12 h-12 rounded-xs bg-white border border-pink-100 shadow-sm flex items-center justify-center shrink-0">
                   <FontAwesomeIcon icon={faLocationDot} className="w-5 h-5 text-pink-500" />
                 </div>

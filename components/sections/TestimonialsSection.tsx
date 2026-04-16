@@ -1,7 +1,8 @@
 'use client';
 
+import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faQuoteLeft, faCommentDots, faStar, faUser, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { faQuoteLeft, faCommentDots, faStar, faUser, faChevronLeft, faChevronRight, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { TestimonialData } from '../../types';
 import { useState, useEffect } from 'react';
 import { resolveUrl } from '../../lib/api';
@@ -11,19 +12,21 @@ interface Props {
 }
 
 export default function TestimonialsSection({ data }: Props) {
+  // Show only 2 latest testimonials
+  const displayData = data.slice(0, 2);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [autoPlay, setAutoPlay] = useState(true);
 
   // Auto-play carousel every 2 seconds
   useEffect(() => {
-    if (!autoPlay || data.length === 0) return;
+    if (!autoPlay || displayData.length === 0) return;
 
     const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % data.length);
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % displayData.length);
     }, 2000);
 
     return () => clearInterval(interval);
-  }, [autoPlay, data.length]);
+  }, [autoPlay, displayData.length]);
 
   const goToSlide = (index: number) => {
     setCurrentIndex(index);
@@ -34,14 +37,14 @@ export default function TestimonialsSection({ data }: Props) {
 
   const goToPrevious = () => {
     setCurrentIndex((prevIndex) => 
-      prevIndex === 0 ? data.length - 1 : prevIndex - 1
+      prevIndex === 0 ? displayData.length - 1 : prevIndex - 1
     );
     setAutoPlay(false);
     setTimeout(() => setAutoPlay(true), 5000);
   };
 
   const goToNext = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % data.length);
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % displayData.length);
     setAutoPlay(false);
     setTimeout(() => setAutoPlay(true), 5000);
   };
@@ -68,19 +71,14 @@ export default function TestimonialsSection({ data }: Props) {
 
       <div className="max-w-7xl mx-auto w-full relative z-10">
         {/* Header */}
-        <div className="text-center mb-16 animate-fade-in relative">
+        <div className="text-center mb-12 animate-fade-in relative">
           {/* Badge styled to match new theme */}
-          <span className="badge mb-4 bg-pink-50 text-pink-600 border border-pink-100 shadow-sm animate-fade-in inline-flex items-center gap-2 px-4 py-1.5 rounded-full font-bold uppercase tracking-wide text-xs"> 
-            <FontAwesomeIcon icon={faStar} className="w-3.5 h-3.5" />
-            Testimoni
-          </span>
-
           {/* Decorative quote marks */}
           <div className="absolute -top-6 left-1/2 -translate-x-1/2 opacity-5 pointer-events-none">
             <FontAwesomeIcon icon={faQuoteLeft} className="text-6xl text-purple-400" />
           </div>
 
-          <h2 className="section-title text-4xl md:text-5xl font-bold animate-fade-in delay-100 mb-4 relative">
+          <h2 className="section-title text-4xl md:text-5xl font-bold animate-fade-in delay-100 relative">
             Apa Kata Mereka
             {/* Decorative dots */}
             <div className="absolute -top-3 left-1/2 -translate-x-1/2 flex gap-1">
@@ -102,13 +100,13 @@ export default function TestimonialsSection({ data }: Props) {
           </div>
         </div>
 
-        {data.length > 0 ? (
+        {displayData.length > 0 ? (
           <div className="max-w-4xl mx-auto">
             {/* Carousel Container */}
             <div className="relative overflow-hidden rounded-xs py-4 px-2">
               {/* Slides */}
               <div className="relative h-96 md:h-80">
-                {data.map((testimonial, index) => (
+                {displayData.map((testimonial, index) => (
                   <div
                     key={testimonial.id ?? index}
                     className={`absolute w-full h-full transition-all duration-500 ease-in-out ${
@@ -121,7 +119,7 @@ export default function TestimonialsSection({ data }: Props) {
                     }}
                   >
                     {/* Card Container (Matching Experience & Skills Theme) */}
-                    <div className="bg-white bg-opacity-90 border-2 border-pink-100/50 rounded-xs p-8 h-full flex flex-col justify-between shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-1 relative overflow-hidden group/card mx-auto max-w-3xl">
+                    <div className="bg-white bg-opacity-90 border-2 border-pink-100/50 rounded-xs p-6 h-full flex flex-col justify-between shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-1 relative overflow-hidden group/card mx-auto max-w-3xl">
                       
                       {/* Left accent bar */}
                       <div className="absolute -left-0.5 top-8 bottom-8 w-1 bg-gradient-to-b from-pink-500 to-purple-400 rounded-r-full opacity-70 group-hover/card:opacity-100 transition-opacity"></div>
@@ -136,7 +134,7 @@ export default function TestimonialsSection({ data }: Props) {
 
                       <div>
                         {/* Quote icon & Stars Header */}
-                        <div className="flex items-start justify-between mb-4">
+                        <div className="flex items-start justify-between mb-3">
                           <div className="w-10 h-10 rounded-xs bg-pink-50 border border-pink-100 flex items-center justify-center group-hover/card:scale-110 transition-transform duration-300">
                             <FontAwesomeIcon icon={faQuoteLeft} className="w-4 h-4 text-pink-500" />
                           </div>
@@ -155,7 +153,7 @@ export default function TestimonialsSection({ data }: Props) {
                       </div>
 
                       {/* Author Info */}
-                      <div className="flex items-center gap-4 pt-5 border-t border-pink-100 mt-4 relative">
+                      <div className="flex items-center gap-4 pt-3 border-t border-pink-100 mt-3 relative">
                         <div className="w-12 h-12 rounded-xs bg-pink-50 flex items-center justify-center overflow-hidden shrink-0 border border-pink-100 group-hover/card:border-pink-300 transition-colors">
                           {testimonial.photo_url ? (
                               <img src={resolveUrl(testimonial.photo_url)} alt={testimonial.name} className="w-full h-full object-cover group-hover/card:scale-110 transition-transform duration-300" />
@@ -190,7 +188,7 @@ export default function TestimonialsSection({ data }: Props) {
 
               {/* Dots Navigation */}
               <div className="flex justify-center gap-2">
-                {data.map((_, index) => (
+                {displayData.map((_, index) => (
                   <button
                     key={index}
                     onClick={() => goToSlide(index)}
@@ -216,8 +214,21 @@ export default function TestimonialsSection({ data }: Props) {
 
             {/* Slide Counter */}
             <p className="text-center mt-4 text-slate-400 text-xs font-semibold tracking-widest">
-              {currentIndex + 1} / {data.length}
+              {currentIndex + 1} / {displayData.length}
             </p>
+
+            {/* View All Button */}
+            {data.length > 2 && (
+              <div className="flex justify-center mt-10">
+                <Link
+                  href="/testimonials"
+                  className="inline-flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-pink-500 to-purple-400 text-white font-semibold rounded-xs transition-all duration-300 hover:shadow-lg hover:scale-105 focus:outline-none"
+                >
+                  <span>Lihat Semua Testimoni</span>
+                  <FontAwesomeIcon icon={faArrowRight} className="w-4 h-4" />
+                </Link>
+              </div>
+            )}
           </div>
         ) : (
           <div className="text-center py-16 bg-white/50 backdrop-blur-sm rounded-xs border-2 border-dashed border-pink-200 max-w-3xl mx-auto">
